@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Graphics2D;
 import java.awt.Point;
 
 public class Cell 
@@ -15,6 +16,24 @@ public class Cell
 	}
 	
 	public void initWalls()
+	{
+		for(int i = 0;i<walls.length;i++)
+		{
+			
+		}
+	}
+	
+	public void draw(Graphics2D g)
+	{
+		
+	}
+	
+	public void addWall(Direction direction)
+	{
+		
+	}
+	
+	public void removeWall(Direction direction)
 	{
 		
 	}
