@@ -1,22 +1,27 @@
 package main;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Main extends JFrame
+public class Main extends JFrame implements MouseListener
 {
 	final Dimension mazeDim = new Dimension(50,50);//Size of the maze
 	static Dimension windowDim;//Size of the window
 	Maze maze;
 	JPanel mazePanel;//Swing panel to draw the maze in
 	MazeGenerator generator; //The algorithm that is used to generate the maze
+	JComboBox<String> viewFilters; //The drop down menu for selecting the views, switches the operation of the paint function
 	
 	public static void main(String[] args)//This method creates the window and launches the code in the constructor
 	{
@@ -36,6 +41,10 @@ public class Main extends JFrame
 	public Main()
 	{
 		maze = new Maze(mazeDim);
+		viewFilters = new JComboBox<String>();
+		viewFilters.addItem("Maze View");
+		viewFilters.addItem("Graph View");
+		this.add(viewFilters, BorderLayout.NORTH);
 		mazePanel = new JPanel();
 		this.add(mazePanel);
 	}
@@ -43,6 +52,43 @@ public class Main extends JFrame
 	public void paint(Graphics gfx)
 	{
 		Graphics2D g = (Graphics2D) mazePanel.getGraphics();
-		maze.draw(g, mazePanel.getSize());
+		if(viewFilters.getSelectedItem().equals("Maze View"))
+		{
+			maze.draw(g, mazePanel.getSize());
+		}
+		else if(viewFilters.getSelectedItem().equals("Graph View"))
+		{
+			//TODO Call code to draw graph here
+		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) 
+	{
+		repaint();
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
