@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 public class Main extends JFrame
 {
-	final Dimension mazeDim = new Dimension(500,500);//Size of the maze
+	final Dimension mazeDim = new Dimension(50,50);//Size of the maze
 	static Dimension windowDim;//Size of the window
 	Maze maze;
 	JPanel mazePanel;//Swing panel to draw the maze in

@@ -51,7 +51,7 @@ public class Maze
 		{
 			for(int y = 0;y<size.height;y++)
 			{
-				mazeData[x][y].draw(gfx);
+				mazeData[x][y].draw(gfx, cellSize);
 			}
 		}
 		
@@ -59,5 +59,10 @@ public class Maze
 		int drawX = panelSize.width/2-mazeImage.getWidth()/2;
 		int drawY = panelSize.height/2-mazeImage.getHeight()/2;
 		g.drawImage(mazeImage, drawX, drawY, null);
+	}
+	
+	public Cell getCell(Point position)
+	{
+		return mazeData[position.x][position.y];
 	}
 }

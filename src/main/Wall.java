@@ -1,9 +1,12 @@
 package main;
 
+import java.awt.Color;
+
 public class Wall 
 {
 	Cell[] dividedCells = new Cell[2];
 	boolean outsideWall = false;
+	public Color wallColor;
 	
 	public Wall(Cell cell1, Cell cell2)
 	{
@@ -13,5 +16,6 @@ public class Wall
 		{
 			outsideWall = true;
 		}
+		wallColor = Color.GRAY;
 	}
 }
