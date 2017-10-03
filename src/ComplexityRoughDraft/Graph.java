@@ -15,8 +15,8 @@ import javax.swing.JFrame;
 
 
 /**
+ * A graph is a set of vertices and edges.  An edge is just a pair of vertices in the graph. 
  * @author Steven Lawrence
- *
  */
 public class Graph {
 	// a graph representation of a maze
@@ -202,7 +202,6 @@ public class Graph {
 	}
 	
 	/**
-	 * 
 	 * @return the traversal length of the maze (useless for entire maze, but will need this for solution path eventually)
 	 */
 	public int traversalLength() {
@@ -248,7 +247,7 @@ public class Graph {
 		
 		// these are constants for the this sample maze, but they can be made into variables that 
 		// would use the height and width of the maze to determine their values
-		private static final int DOT_RADIUS = 20;              // radius of the drawn points
+		private static final int DOT_RADIUS = 30;              // radius of the drawn points
 		private static final int LEGEND_X = 1400;              // x position of the legend
 		private static final int LEGEND_Y = 900;               // y position of the legend
 		private static final int NEXT_LINE = LEGEND_Y + 30;    // next line of the legend

@@ -19,10 +19,11 @@ public class Main extends JFrame implements MouseListener
 	final Dimension mazeDim = new Dimension(50,50);//Size of the maze
 	static Dimension windowDim;//Size of the window
 	Maze maze;
+	Graph graph;
 	JPanel mazePanel;//Swing panel to draw the maze in
 	MazeGenerator generator; //The algorithm that is used to generate the maze
 	JComboBox<String> viewFilters; //The drop down menu for selecting the views, switches the operation of the paint function
-	
+		
 	public static void main(String[] args)//This method creates the window and launches the code in the constructor
 	{
 		EventQueue.invokeLater(new Runnable() {
@@ -41,6 +42,8 @@ public class Main extends JFrame implements MouseListener
 	public Main()
 	{
 		maze = new Maze(mazeDim);
+		// MazeGenerator here 
+		graph = new Graph(maze);
 		viewFilters = new JComboBox<String>();
 		viewFilters.addItem("Maze View");
 		viewFilters.addItem("Graph View");
@@ -58,7 +61,7 @@ public class Main extends JFrame implements MouseListener
 		}
 		else if(viewFilters.getSelectedItem().equals("Graph View"))
 		{
-			//TODO Call code to draw graph here
+			graph.draw(g, mazePanel.getSize(), maze.getMazeImage());
 		}
 	}
 

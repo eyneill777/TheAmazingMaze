@@ -18,6 +18,7 @@ public class Maze
 	{
 		this.size = size;
 		mazeData = new Cell[size.width][size.height];
+		mazeImage = new BufferedImage(size.width*cellSize, size.height*cellSize, BufferedImage.TYPE_INT_ARGB);
 		reset();
 	}
 	
@@ -43,8 +44,8 @@ public class Maze
 	{
 		g.setColor(Color.black);
 		g.fillRect(0, 0, panelSize.width, panelSize.height);
-		mazeImage = new BufferedImage(size.width*cellSize, size.height*cellSize, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D gfx = (Graphics2D) mazeImage.getGraphics();
+		gfx.fillRect(0, 0, mazeImage.getWidth(), mazeImage.getHeight());   // erase the graph off of the image
 		
 		//Loop through all the cells and draw them to MazeImage
 		for(int x = 0;x<size.width;x++)
@@ -65,4 +66,16 @@ public class Maze
 	{
 		return mazeData[position.x][position.y];
 	}
+
+	/**
+	 * @return the mazeData
+	 */
+	public Cell[][] getMazeData() {
+		return mazeData;
+	}
+
+	public BufferedImage getMazeImage() {
+		return mazeImage;
+	}
+	
 }

@@ -3,6 +3,7 @@ package main;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.util.ArrayList;
 
 public class Cell 
 {
@@ -10,6 +11,7 @@ public class Cell
 	Maze maze; //The maze this cell belongs to
 	Point position; //This cell's position in the maze
 	Color bgColor;
+	ArrayList<Cell> neighbors;  // contains neighbor cells from openings, or removed walls
 	
 	public Cell(Maze maze, Point position)
 	{
@@ -92,6 +94,40 @@ public class Cell
 	
 	public void removeWall(Direction direction)
 	{
+		neighbors.add(walls[direction.num].getNeighbor());  // add the new neighboring cell to neighbors
 		walls[direction.num] = null;
+	}
+	
+	/**
+	 * 
+	 * @return a boolean based on if the cell is a dead end (only one opening to a neighbor)
+	 */
+	public boolean isDeadEnd() {
+		if (neighbors.size() == 1) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Determine if the cell is a corner based on which of its walls are broken
+	 * @return a boolean of if the cell is a corner vertex, or not
+	 */
+	public boolean isCorner() {
+		if (walls[Direction.North.num] == null && walls[Direction.West.num] == null) {
+			return true;
+		}
+		if (walls[Direction.North.num] == null && walls[Direction.East.num] == null) {
+			return true;
+		}
+		if (walls[Direction.South.num] == null && walls[Direction.West.num] == null) {
+			return true;
+		}
+		if (walls[Direction.South.num] == null && walls[Direction.East.num] == null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

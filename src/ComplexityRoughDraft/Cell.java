@@ -3,10 +3,8 @@
  */
 package ComplexityRoughDraft;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author Steven Lawrence

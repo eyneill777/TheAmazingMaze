@@ -18,4 +18,11 @@ public class Wall
 		}
 		wallColor = Color.GRAY;
 	}
+	
+	/**
+	 * @return the neighboring cell
+	 */
+	public Cell getNeighbor() {
+		return dividedCells[1];
+	}
 }
