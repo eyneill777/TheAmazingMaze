@@ -50,6 +50,7 @@ public class Main extends JFrame implements MouseListener
 		this.add(viewFilters, BorderLayout.NORTH);
 		mazePanel = new JPanel();
 		this.add(mazePanel);
+		this.addMouseListener(this);
 	}
 	
 	public void paint(Graphics gfx)
@@ -75,6 +76,7 @@ public class Main extends JFrame implements MouseListener
 	public void mousePressed(MouseEvent e) 
 	{
 		repaint();
+		System.out.println("test");
 	}
 
 	@Override
