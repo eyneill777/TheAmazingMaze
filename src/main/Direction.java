@@ -31,6 +31,10 @@ public enum Direction
         return (Direction) map.get(num);
     }
     
+    /**
+     *  Get the opposite direction
+     * @return the integer number of the opposite directionss
+     */
     public int opposite() {
     	switch(num) {
     	case 0:

@@ -32,7 +32,7 @@ public class Cell {
 		g.fillRect(position.x * size, position.y * size, size, size);
 		for (int i = 0; i < 4; i++) {
 			Wall w = walls[i];
-			if (w == null) {
+			if (w == null) {       // if the wall is null then skip it
 				continue;
 			} else {
 			g.setColor(w.wallColor);
@@ -76,9 +76,9 @@ public class Cell {
 	public void removeWall(Direction direction) {
 		if (walls[direction.num] != null) {
 			Cell neighbs = walls[direction.num].getNeighbor();  // get the neighbor cell
-			neighbors.add(neighbs); // add the new neighboring cell to neighbors
-			neighbs.neighbors.add(this); // add current cell to the neigbors list of the neigboring cell
-			walls[direction.num] = null;                    // delete the locations of the wallss
+			neighbors.add(neighbs);                             // add the new neighboring cell to neighbors
+			neighbs.neighbors.add(this);                        // add current cell to the neighbor's list of the neighboring cells
+			walls[direction.num] = null;                        // delete the wall from its stored locations
 			neighbs.walls[direction.opposite()] = null;
 		}
 	}

@@ -211,6 +211,7 @@ public class Graph {
 	private void drawPoint(Graphics g, Cell theCell, int radius) {
 		int r = radius;
 		int translateDot = r / 2; // centers the dot on the line with given radius r
+		// the x and y coordinates of the center of the cell
 		int xPos = (theCell.position.x * theMaze.cellSize) + (theMaze.cellSize / 2);
 		int yPos = (theCell.position.y * theMaze.cellSize) + (theMaze.cellSize / 2);
 		
@@ -227,7 +228,7 @@ public class Graph {
 	}
 	
 	public void draw(Graphics2D g, Dimension panelSize, BufferedImage mazePic) {
-		int center = theMaze.cellSize / 2;
+		int center = theMaze.cellSize / 2;  // x and y from the point of a cell are in the top left corner, so have to go half way down and over to get to the center
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, panelSize.width, panelSize.height);
 		graphImage = mazePic;
