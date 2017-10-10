@@ -41,16 +41,21 @@ public class Main extends JFrame implements MouseListener
 	
 	public Main()
 	{
+		addMouseListener(this);
 		maze = new Maze(mazeDim);
-		// MazeGenerator here 
 		graph = new Graph(maze);
 		viewFilters = new JComboBox<String>();
 		viewFilters.addItem("Maze View");
 		viewFilters.addItem("Graph View");
+		viewFilters.addMouseListener(this);
 		this.add(viewFilters, BorderLayout.NORTH);
 		mazePanel = new JPanel();
+		mazePanel.addMouseListener(this);
 		this.add(mazePanel);
-		this.addMouseListener(this);
+		System.out.println(graph.numberOfDeadEnds());
+		System.out.println(graph.numberOfIntersections());
+		System.out.println(graph.traversalLength());
+		System.out.println(graph.mazeComplexity());
 	}
 	
 	public void paint(Graphics gfx)
@@ -68,7 +73,6 @@ public class Main extends JFrame implements MouseListener
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 

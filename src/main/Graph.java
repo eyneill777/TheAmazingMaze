@@ -211,20 +211,23 @@ public class Graph {
 	private void drawPoint(Graphics g, Cell theCell, int radius) {
 		int r = radius;
 		int translateDot = r / 2; // centers the dot on the line with given radius r
+		int xPos = (theCell.position.x * theMaze.cellSize) + (theMaze.cellSize / 2);
+		int yPos = (theCell.position.y * theMaze.cellSize) + (theMaze.cellSize / 2);
 		
 		// if the cell is an intersection point then draw the dot green
 		if (intersections.contains(theCell)){
 			g.setColor(Color.green);
-			g.fillOval(theCell.position.x - translateDot, theCell.position.y - translateDot, r, r);
+			g.fillOval(xPos - translateDot, yPos - translateDot, r, r);
 			
 		// draw it red if its a dead end
 		}else if (deadEnds.contains(theCell)) { 
 			g.setColor(Color.red);
-			g.fillOval(theCell.position.x - translateDot, theCell.position.y - translateDot, r, r);
+			g.fillOval(xPos - translateDot, yPos - translateDot, r, r);
 		}
 	}
 	
 	public void draw(Graphics2D g, Dimension panelSize, BufferedImage mazePic) {
+		int center = theMaze.cellSize / 2;
 		g.setColor(Color.gray);
 		g.fillRect(0, 0, panelSize.width, panelSize.height);
 		graphImage = mazePic;
@@ -241,8 +244,8 @@ public class Graph {
         	for (int k = 1; k < h.size(); k++) {
         		c1 = h.get(k - 1);
         		c2 = h.get(k);
-        		g.setColor(Color.black);
-        		g.drawLine(c1.position.x, c1.position.y, c2.position.x, c2.position.y);
+        		g2.setColor(Color.black);
+        		g2.drawLine(c1.position.x*theMaze.cellSize + center, c1.position.y*theMaze.cellSize + center, c2.position.x*theMaze.cellSize + center, c2.position.y*theMaze.cellSize + center);
         		
         		if (k == 1) {
         			drawPoint(g2, c1, dotRadius);
