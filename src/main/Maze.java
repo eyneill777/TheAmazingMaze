@@ -12,7 +12,7 @@ public class Maze
 	Dimension size;
 	Cell[][] mazeData;//Data for the maze, true = wall, false = hallway
 	BufferedImage mazeImage;//Image the maze is stored in 
-	int cellSize = 10;
+	int cellSize = 200;
 	
 	public Maze(Dimension size)
 	{
