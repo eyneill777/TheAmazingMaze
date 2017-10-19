@@ -117,4 +117,7 @@ public class Cell {
 			return false;
 		}
 	}
-}
+	public String toString() {
+		return "Cell(x=" + this.position.x +", y=" + this.position.y + ")";
+	}
+} 
