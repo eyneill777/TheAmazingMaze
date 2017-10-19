@@ -445,12 +445,13 @@ public class Graph {
 			g.setColor(Color.orange);
 			g.fillOval(xPos - translateDot, yPos - translateDot, r, r);
 		}
+
 		// if the cell is an intersection point then draw the dot green
 		else if (intersections.contains(theCell)) {
 			g.setColor(Color.green);
 			g.fillOval(xPos - translateDot, yPos - translateDot, r, r);
 
-			// draw it red if its a dead end
+	    // draw it red if its a dead end
 		} else if (deadEnds.contains(theCell)) {
 			g.setColor(Color.red);
 			g.fillOval(xPos - translateDot, yPos - translateDot, r, r);
