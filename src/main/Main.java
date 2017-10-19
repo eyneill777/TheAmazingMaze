@@ -41,42 +41,17 @@ public class Main extends JFrame implements MouseListener
 	
 	public Main()
 	{
+		addMouseListener(this);
 		maze = new Maze(mazeDim);
-		// MazeGenerator here 
-		/* sample maze, probably should have put this in its separte class
-		 * Note make cell size 200 and change maze dimensions to 5x5
-		maze.mazeData[0][0].removeWall(Direction.South);
-		maze.mazeData[0][1].removeWall(Direction.East);
-		maze.mazeData[1][1].removeWall(Direction.South);
-		maze.mazeData[1][2].removeWall(Direction.West);
-		maze.mazeData[0][2].removeWall(Direction.South);
-		maze.mazeData[1][2].removeWall(Direction.East);
-		maze.mazeData[2][2].removeWall(Direction.South);
-		maze.mazeData[2][3].removeWall(Direction.South);
-		maze.mazeData[2][4].removeWall(Direction.West);
-		maze.mazeData[1][4].removeWall(Direction.North);
-		maze.mazeData[1][4].removeWall(Direction.West);
-		maze.mazeData[2][2].removeWall(Direction.East);
-		maze.mazeData[3][2].removeWall(Direction.North);
-		maze.mazeData[3][1].removeWall(Direction.West);
-		maze.mazeData[3][1].removeWall(Direction.North);
-		maze.mazeData[3][0].removeWall(Direction.West);
-		maze.mazeData[2][0].removeWall(Direction.West);
-		maze.mazeData[3][0].removeWall(Direction.East);
-		maze.mazeData[4][0].removeWall(Direction.South);
-		maze.mazeData[4][1].removeWall(Direction.South);
-		maze.mazeData[4][2].removeWall(Direction.South);
-		maze.mazeData[4][3].removeWall(Direction.West);
-		maze.mazeData[4][3].removeWall(Direction.South);
-		maze.mazeData[4][4].removeWall(Direction.West);
-		*/
-		
+        
 		graph = new Graph(maze);
 		viewFilters = new JComboBox<String>();
 		viewFilters.addItem("Maze View");
 		viewFilters.addItem("Graph View");
+		viewFilters.addMouseListener(this);
 		this.add(viewFilters, BorderLayout.NORTH);
 		mazePanel = new JPanel();
+		mazePanel.addMouseListener(this);
 		this.add(mazePanel);
 		System.out.println(graph.numberOfDeadEnds());
 		System.out.println(graph.numberOfIntersections());
@@ -99,7 +74,6 @@ public class Main extends JFrame implements MouseListener
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -107,6 +81,7 @@ public class Main extends JFrame implements MouseListener
 	public void mousePressed(MouseEvent e) 
 	{
 		repaint();
+		System.out.println("test");
 	}
 
 	@Override
