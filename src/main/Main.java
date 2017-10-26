@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -27,6 +28,7 @@ public class Main extends JFrame implements MouseListener
 	AstarMazeSolver solution;
 	ArrayList<Cell> solutionPath;
 	
+	
 	public static void main(String[] args)//This method creates the window and launches the code in the constructor
 	{
 		EventQueue.invokeLater(new Runnable() {
@@ -46,11 +48,12 @@ public class Main extends JFrame implements MouseListener
 	{
 		addMouseListener(this);
 		maze = new Maze(mazeDim);
-		generator = new SimpleSampleMaze(maze); // MazeGenerator here 
+		generator = new KruskalsAlgorithm(maze); // MazeGenerator here 
 		generator.generateMaze();
 		solution = new AstarMazeSolver(maze);
 		solutionPath = solution.search();
 		graph = new Graph(maze, solutionPath);
+		
 		viewFilters = new JComboBox<String>();
 		viewFilters.addItem("Maze View");
 		viewFilters.addItem("Graph View");
@@ -76,6 +79,7 @@ public class Main extends JFrame implements MouseListener
 		if(viewFilters.getSelectedItem().equals("Maze View"))
 		{
 			maze.draw(g, mazePanel.getSize());
+			
 		}
 		else if(viewFilters.getSelectedItem().equals("Graph View"))
 		{
