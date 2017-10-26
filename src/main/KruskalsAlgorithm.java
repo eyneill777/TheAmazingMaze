@@ -14,7 +14,6 @@ public class KruskalsAlgorithm extends MazeGenerator {
 	private static final Dimension fiveByFive = new Dimension(5, 5);
 	private Random rand;
 	private Set<Cell> hash_Set = new HashSet<Cell>();
-	private ArrayList<Wall> shuffledWalls;
 
 	public KruskalsAlgorithm(Maze maze) {
 		super(maze);
@@ -57,7 +56,7 @@ public class KruskalsAlgorithm extends MazeGenerator {
 			if (walls.get(i).isOutsideWall())
 				walls.remove(i);
 		}
-		
+
 		// There should be 60 walls
 		System.out.println(walls + "\n" + walls.size());
 
@@ -71,24 +70,11 @@ public class KruskalsAlgorithm extends MazeGenerator {
 
 		// Playing with how I am going to delete the walls. The following does not
 		// reflect Kruskal's at all.
-		for (int i = 0; i < maze.mazeData.length - 1; i++) {
-			for (int j = 0; j < maze.mazeData[i].length - 1; j++) {
-				if (maze.mazeData[i][j].hasWall(Direction.South)
-						&& walls.get(i).getRelativeCellPosition().equals(Direction.South)) {
-					maze.mazeData[i][j].removeWall(Direction.South);
-				} else if (maze.mazeData[i][j].hasWall(Direction.East)
-						&& walls.get(i).getRelativeCellPosition().equals(Direction.East)) {
-					maze.mazeData[i][j].removeWall(Direction.East);
-				} else if (maze.mazeData[i][j].hasWall(Direction.North)
-						&& walls.get(i).getRelativeCellPosition().equals(Direction.North)) {
-					maze.mazeData[i][j].removeWall(Direction.North);
-				} else if (maze.mazeData[i][j].hasWall(Direction.West)
-						&& walls.get(i).getRelativeCellPosition().equals(Direction.West)) {
-					maze.mazeData[i][j].removeWall(Direction.West);
-				} else
-					System.out.println(walls.get(i).getRelativeCellPosition());
-
-			}
+		for (int i = 0; i < walls.size() - 1; i++) {
+			Cell tempCell = walls.get(i).getCell1();
+			Direction tempD = walls.get(i).getRelativeCellPosition();
+			System.out.println(tempCell +"\t"+tempD);
+			tempCell.removeWall(tempD);
 		}
 
 	}

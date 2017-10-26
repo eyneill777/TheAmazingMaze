@@ -28,6 +28,9 @@ public class Wall {
 		relativeCellPosition = getRelativeCellPosition();
 		wallColor = Color.GRAY;
 	}
+	public Cell getCell1() {
+		return dividedCells[0];
+	}
 	public boolean isOutsideWall() {
 		return outsideWall;
 	}
@@ -37,9 +40,9 @@ public class Wall {
 	 * @return The position of the first cell relative to the wall and second cell.
 	 */
 	public Direction getRelativeCellPosition() {
-		if (x == x2 && y < y2) {
+		if (x == x2 && y > y2) {
 			relativeCellPosition = Direction.North;
-		} else if (x == x2 && y > y2) {
+		} else if (x == x2 && y < y2) {
 			relativeCellPosition = Direction.South;
 		} else if (x > x2 && y == y2) {
 			relativeCellPosition = Direction.West;
