@@ -31,6 +31,9 @@ public class Wall {
 	public Cell getCell1() {
 		return dividedCells[0];
 	}
+	public Cell getCell2() {
+		return dividedCells[1];
+	}
 	public boolean isOutsideWall() {
 		return outsideWall;
 	}
