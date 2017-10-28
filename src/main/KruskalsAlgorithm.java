@@ -12,7 +12,6 @@ import java.util.Set;
 public class KruskalsAlgorithm extends MazeGenerator {
 	private ArrayList<Wall> walls = new ArrayList<Wall>();
 	private static final Dimension fiveByFive = new Dimension(5, 5);
-	private Random rand;
 	private Set<Cell> hash_Set = new HashSet<Cell>();
 
 	public KruskalsAlgorithm(Maze maze) {
@@ -30,6 +29,7 @@ public class KruskalsAlgorithm extends MazeGenerator {
 		// adding all the walls.
 		for (int i = 0; i < maze.mazeData.length; i++) {
 			for (int j = 0; j < maze.mazeData[i].length; j++) {
+				
 				if (maze.mazeData[i][j].hasWall(Direction.North)) {
 					if (!walls.contains(maze.mazeData[i][j].getNorthWall())) {
 						walls.add(maze.mazeData[i][j].getNorthWall());
@@ -52,33 +52,26 @@ public class KruskalsAlgorithm extends MazeGenerator {
 				}
 			}
 		}
+		System.out.println(hash_Set);
 		// Removing all the outside walls
 		for (int i = walls.size() - 1; i >= 0; i--) {
 			if (walls.get(i).isOutsideWall())
 				walls.remove(i);
 		}
 
-		// add each cell to its own set
-		for (int i = 0; i < maze.mazeData.length; i++) {
-			for (int j = 0; j < maze.mazeData[i].length; j++) {
 
-			}
-		}
-
-		// There should be 60 walls
-		System.out.println(walls + "\n" + walls.size());
 
 		// Will shuffle the walls
-		for (int i = 0; i <= walls.size() - 1; i++) {
+		for (int i = 0; i < walls.size(); i++) {
 			int ind = rand.nextInt(walls.size());
 			int ind2 = rand.nextInt(walls.size());
 			Collections.swap((List<Wall>) walls, ind, ind2);
 		}
-		System.out.println(walls);
+		
 
 		// Playing with how I am going to delete the walls. The following does not
 		// reflect Kruskal's at all.
-		
+		// How do i give each cell its own set?
 		while(!walls.isEmpty()) {
 			Cell tempCell = walls.get(0).getCell1();
 			Cell tempCell2 = walls.get(0).getCell2();
@@ -99,7 +92,6 @@ public class KruskalsAlgorithm extends MazeGenerator {
 				walls.remove(0);
 				hash_Set.add(tempCell2);
 			} else walls.remove(0);
-			System.out.println(walls);
 		}
 	}
 }
