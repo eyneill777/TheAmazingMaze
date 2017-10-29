@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 
 public class Maze 
@@ -12,14 +13,32 @@ public class Maze
 	Dimension size;
 	Cell[][] mazeData;//Data for the maze, true = wall, false = hallway
 	BufferedImage mazeImage;//Image the maze is stored in 
-	int cellSize = 200;
+	int cellSize;
 	
 	public Maze(Dimension size)
 	{
 		this.size = size;
+		adjustCellSize();
 		mazeData = new Cell[size.width][size.height];
 		mazeImage = new BufferedImage(size.width*cellSize, size.height*cellSize, BufferedImage.TYPE_INT_ARGB);
 		reset();
+	}
+	
+	private void adjustCellSize()
+	{
+		int smallestDim = Toolkit.getDefaultToolkit().getScreenSize().height;
+		boolean l = true;
+		if(Toolkit.getDefaultToolkit().getScreenSize().width<smallestDim)
+		{
+			smallestDim = Toolkit.getDefaultToolkit().getScreenSize().width;
+			l = false;
+		}
+		if(l = true)
+			cellSize = Toolkit.getDefaultToolkit().getScreenSize().height/size.height;
+		else
+			cellSize = Toolkit.getDefaultToolkit().getScreenSize().width/size.width;
+		System.out.println(size.height);
+		System.out.println(cellSize);
 	}
 	
 	public void reset()//Set all maze data to open halls

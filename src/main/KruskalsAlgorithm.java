@@ -20,11 +20,6 @@ public class KruskalsAlgorithm extends MazeGenerator {
 
 	public void generateMaze() {
 		Random rand = new Random();
-		maze.size = fiveByFive;
-		maze.mazeData = new Cell[maze.size.width][maze.size.height];
-		maze.mazeImage = new BufferedImage(maze.size.width * maze.cellSize, maze.size.height * maze.cellSize,
-				BufferedImage.TYPE_INT_ARGB);
-		maze.reset();
 
 		// adding all the walls.
 		for (int i = 0; i < maze.mazeData.length; i++) {
