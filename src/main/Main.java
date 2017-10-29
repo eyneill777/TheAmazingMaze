@@ -92,7 +92,6 @@ public class Main extends JFrame implements MouseListener
 	public void mousePressed(MouseEvent e) 
 	{
 		repaint();
-		System.out.println("test");
 	}
 
 	@Override
