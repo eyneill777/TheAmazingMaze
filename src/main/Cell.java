@@ -32,21 +32,21 @@ public class Cell {
 		g.fillRect(position.x * size, position.y * size, size, size);
 		for (int i = 0; i < 4; i++) {
 			Wall w = walls[i];
-			if (w == null) {       // if the wall is null then skip it
+			if (w == null) { // if the wall is null then skip it
 				continue;
 			} else {
-			g.setColor(w.wallColor);
-			if (i == Direction.North.num) {
-				g.drawLine(position.x * size, position.y * size, (position.x + 1) * size, position.y * size);
-			} else if (i == Direction.East.num) {
-				g.drawLine((position.x + 1) * size, position.y * size, (position.x + 1) * size,
-						(position.y + 1) * size);
-			} else if (i == Direction.South.num) {
-				g.drawLine(position.x * size, (position.y + 1) * size, (position.x + 1) * size,
-						(position.y + 1) * size);
-			} else if (i == Direction.West.num) {
-				g.drawLine(position.x * size, position.y * size, position.x * size, (position.y + 1) * size);
-			}
+				g.setColor(w.wallColor);
+				if (i == Direction.North.num) {
+					g.drawLine(position.x * size, position.y * size, (position.x + 1) * size, position.y * size);
+				} else if (i == Direction.East.num) {
+					g.drawLine((position.x + 1) * size, position.y * size, (position.x + 1) * size,
+							(position.y + 1) * size);
+				} else if (i == Direction.South.num) {
+					g.drawLine(position.x * size, (position.y + 1) * size, (position.x + 1) * size,
+							(position.y + 1) * size);
+				} else if (i == Direction.West.num) {
+					g.drawLine(position.x * size, position.y * size, position.x * size, (position.y + 1) * size);
+				}
 			}
 		}
 	}
@@ -71,14 +71,22 @@ public class Cell {
 			}
 		}
 		walls[direction.num] = new Wall(this, cell2);
+
+	}
+
+	public boolean hasWall(Direction direction) {
+		if (walls[direction.num] != null) {
+			return true;
+		} else
+			return false;
 	}
 
 	public void removeWall(Direction direction) {
 		if (walls[direction.num] != null) {
-			Cell neighbs = walls[direction.num].getNeighbor();  // get the neighbor cell
-			neighbors.add(neighbs);                             // add the new neighboring cell to neighbors
-			neighbs.neighbors.add(this);                        // add current cell to the neighbor's list of the neighboring cells
-			walls[direction.num] = null;                        // delete the wall from its stored locations
+			Cell neighbs = walls[direction.num].getNeighbor(); // get the neighbor cell
+			neighbors.add(neighbs); // add the new neighboring cell to neighbors
+			neighbs.neighbors.add(this); // add current cell to the neighbor's list of the neighboring cells
+			walls[direction.num] = null; // delete the wall from its stored locations
 			neighbs.walls[direction.opposite()] = null;
 		}
 	}
@@ -117,7 +125,23 @@ public class Cell {
 			return false;
 		}
 	}
-	public String toString() {
-		return "Cell(x=" + this.position.x +", y=" + this.position.y + ")";
+	public Wall getNorthWall() {
+		return walls[Direction.North.num];
 	}
-} 
+	public Wall getWestWall() {
+		return walls[Direction.West.num];
+	}
+
+	public String toString() {
+		return "Cell(x=" + this.position.x + ", y=" + this.position.y + ")";
+	}
+
+	public Wall getSouthWall() {
+		// TODO Auto-generated method stub
+		return walls[Direction.West.num];
+	}
+	public Wall getEastWall() {
+		// TODO Auto-generated method stub
+		return walls[Direction.East.num];
+	}
+}
