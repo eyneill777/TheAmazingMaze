@@ -6,15 +6,24 @@ import main.MazeGenerator;
 
 public class RecursiveDivision extends MazeGenerator
 {
+	
+	
 	public RecursiveDivision(Maze maze) 
 	{
 		super(maze);
 	}
 
 	@Override
-	public void generateMaze(Cell[] cells) 
+	public void generateMaze() 
 	{
-		int x = 0, y = 0;
 		
+	}
+	
+	private void createChamber(int x, int y, int width, int height)
+	{
+		for(int dy = y;dy<y+height;dy++)
+		{
+			
+		}
 	}
 }

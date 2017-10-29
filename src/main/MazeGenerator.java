@@ -2,7 +2,7 @@ package main;
 
 public abstract class MazeGenerator 
 {
-	Maze maze;
+	public Maze maze;
 	
 	public MazeGenerator(Maze maze)
 	{

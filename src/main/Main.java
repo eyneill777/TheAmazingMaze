@@ -36,7 +36,7 @@ public class Main extends JFrame {
 	AstarMazeSolver solution;
 	ArrayList<Cell> solutionPath;
 	private JMenuBar menuBar;
-	private JMenu fileMenu;
+	private JMenu viewMenu, generateMenu;
 	private AbstractButton menuItem;
 	private EventHandler eh;
 	private Mode drawMode = Mode.MAZE; // default to maze
@@ -73,18 +73,27 @@ public class Main extends JFrame {
 		Font f = new Font("sans-serif", Font.PLAIN, 40);
 		UIManager.put("Menu.font", f);
 		menuBar = new JMenuBar();
-		fileMenu = new JMenu("File");
-		menuBar.add(fileMenu);
+		viewMenu = new JMenu("View");
+		generateMenu = new JMenu("Generate");
+		menuBar.add(viewMenu);
+		menuBar.add(generateMenu);
 		this.add(menuBar, BorderLayout.NORTH);
+		
 		// Graph view
 		JMenuItem menuItem = new JMenuItem("Graph View");
 		menuItem.addActionListener(eh);
-		fileMenu.add(menuItem);
+		viewMenu.add(menuItem);
 		menuItem.setFont(f);
 		// Maze view
 		menuItem = new JMenuItem("Maze View");
 		menuItem.addActionListener(eh);
-		fileMenu.add(menuItem);
+		viewMenu.add(menuItem);
+		menuItem.setFont(f);
+		
+		// Kruskals Algorithm
+		menuItem = new JMenuItem("Kruskals");
+		menuItem.addActionListener(eh);
+		generateMenu.add(menuItem);
 		menuItem.setFont(f);
 
 
@@ -124,7 +133,6 @@ public class Main extends JFrame {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			repaint();
-			System.out.println("test");
 		}
 
 		@Override
@@ -152,12 +160,17 @@ public class Main extends JFrame {
 				System.out.println("test");
 				repaint();
 			}
-			if (e.getActionCommand().equals("Maze View")) {
+			else if (e.getActionCommand().equals("Maze View")) {
 				drawMode = Mode.MAZE;
 				System.out.println("test");
 				repaint();
 			}
-
+			else if (e.getActionCommand().equals("Kruskals")) {
+				maze.reset();
+				generator = new KruskalsAlgorithm(maze); // MazeGenerator here
+				generator.generateMaze();
+				repaint();
+			}
 		}
 
 		@Override
