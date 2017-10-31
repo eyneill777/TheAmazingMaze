@@ -95,6 +95,11 @@ public class Main extends JFrame {
 		menuItem.addActionListener(eh);
 		generateMenu.add(menuItem);
 		menuItem.setFont(f);
+		// Recursive Division
+				menuItem = new JMenuItem("Recursive");
+				menuItem.addActionListener(eh);
+				generateMenu.add(menuItem);
+				menuItem.setFont(f);
 
 
 		mazePanel = new JPanel();
@@ -168,6 +173,12 @@ public class Main extends JFrame {
 			else if (e.getActionCommand().equals("Kruskals")) {
 				maze.reset();
 				generator = new KruskalsAlgorithm(maze); // MazeGenerator here
+				generator.generateMaze();
+				repaint();
+			}
+			else if (e.getActionCommand().equals("Recursive")) {
+				maze.reset();
+				generator = new RecursiveDivision(maze); // MazeGenerator here
 				generator.generateMaze();
 				repaint();
 			}

@@ -37,8 +37,6 @@ public class Maze
 			cellSize = Toolkit.getDefaultToolkit().getScreenSize().height/size.height;
 		else
 			cellSize = Toolkit.getDefaultToolkit().getScreenSize().width/size.width;
-		System.out.println(size.height);
-		System.out.println(cellSize);
 	}
 	
 	public void reset()//Set all maze data to open halls
