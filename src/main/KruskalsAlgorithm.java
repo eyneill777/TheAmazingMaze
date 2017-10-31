@@ -2,17 +2,22 @@ package main;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Array;
+import java.security.KeyStore.Entry;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 
 public class KruskalsAlgorithm extends MazeGenerator {
 	private ArrayList<Wall> walls = new ArrayList<Wall>();
-	private static final Dimension fiveByFive = new Dimension(5, 5);
-	private Set<Cell> hash_Set = new HashSet<Cell>();
+	private HashSet<Cell> visited = new HashSet<Cell>();
 
 	public KruskalsAlgorithm(Maze maze) {
 		super(maze);
@@ -22,9 +27,10 @@ public class KruskalsAlgorithm extends MazeGenerator {
 		Random rand = new Random();
 
 		// adding all the walls.
+		int counter = 0;
 		for (int i = 0; i < maze.mazeData.length; i++) {
 			for (int j = 0; j < maze.mazeData[i].length; j++) {
-				
+				maze.mazeData[i][j].setLabel(counter);
 				if (maze.mazeData[i][j].hasWall(Direction.North)) {
 					if (!walls.contains(maze.mazeData[i][j].getNorthWall())) {
 						walls.add(maze.mazeData[i][j].getNorthWall());
@@ -45,16 +51,16 @@ public class KruskalsAlgorithm extends MazeGenerator {
 						walls.add(maze.mazeData[i][j].getWestWall());
 					}
 				}
+				counter++;
 			}
+
 		}
-		System.out.println(hash_Set);
+
 		// Removing all the outside walls
 		for (int i = walls.size() - 1; i >= 0; i--) {
 			if (walls.get(i).isOutsideWall())
 				walls.remove(i);
 		}
-
-
 
 		// Will shuffle the walls
 		for (int i = 0; i < walls.size(); i++) {
@@ -62,31 +68,55 @@ public class KruskalsAlgorithm extends MazeGenerator {
 			int ind2 = rand.nextInt(walls.size());
 			Collections.swap((List<Wall>) walls, ind, ind2);
 		}
-		
 
 		// Playing with how I am going to delete the walls. The following does not
 		// reflect Kruskal's at all.
 		// How do i give each cell its own set?
-		while(!walls.isEmpty()) {
+
+		while (!walls.isEmpty()) {
 			Cell tempCell = walls.get(0).getCell1();
 			Cell tempCell2 = walls.get(0).getCell2();
-			if (!hash_Set.contains(tempCell) && !hash_Set.contains(tempCell2)) { // Cells are in their own sets
-				Direction tempD = walls.get(0).getRelativeCellPosition();
+			Direction tempD = walls.get(0).getRelativeCellPosition();
+			if (!visited.contains(tempCell) && !visited.contains(tempCell2)) { // Cells are in their own sets and haven't been visited
 				tempCell.removeWall(tempD);
 				walls.remove(0);
-				hash_Set.add(tempCell);
-				hash_Set.add(tempCell2);
-			} else if (!hash_Set.contains(tempCell)) { // Cell 1 is in it's own set. Cell2 is in a larger set.
-				Direction tempD = walls.get(0).getRelativeCellPosition();
+				visited.add(tempCell);
+				visited.add(tempCell2);
+				tempCell.setLabel(tempCell2.getLabel()); // Give cell 2 the same label as cell 1. Put them in the same set.
+
+			} else if (!visited.contains(tempCell)) { // Cell 1 is in it's own set. Cell2 is in a larger set.
 				tempCell.removeWall(tempD);
 				walls.remove(0);
-				hash_Set.add(tempCell);
-			} else if (!hash_Set.contains(tempCell2)) { // Cell 2 is in it's own set. Cell2 is in a larger set.
-				Direction tempD = walls.get(0).getRelativeCellPosition();
+				visited.add(tempCell);
+				tempCell.setLabel(tempCell2.getLabel());
+
+			} else if (!visited.contains(tempCell2)) { // Cell 2 is in it's own set. Cell2 is in a larger set.
 				tempCell.removeWall(tempD);
 				walls.remove(0);
-				hash_Set.add(tempCell2);
-			} else walls.remove(0);
+				visited.add(tempCell2);
+				tempCell2.setLabel(tempCell.getLabel());
+				
+			} else if (visited.contains(tempCell) && visited.contains(tempCell2)
+					&& tempCell.getLabel() != tempCell2.getLabel()) { // cell 2 and cell 1 have been visited but are in different sets.
+				tempCell.removeWall(tempD);
+				walls.remove(0);
+				for (int i = 0; i < maze.mazeData.length; i++) {
+					for (int j = 0; j < maze.mazeData[i].length; j++) {
+						if (maze.mazeData[i][j].getLabel() == (tempCell.getLabel())) {
+							maze.mazeData[i][j].setLabel(tempCell2.getLabel()); // All of set1 joins set 2
+							System.out.println(maze.mazeData[i][j]);
+						}
+					}
+					}
+
+				
+			} else {
+				walls.remove(0);
+				
+			}
+
 		}
+
 	}
+
 }

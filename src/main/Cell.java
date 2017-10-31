@@ -11,12 +11,22 @@ public class Cell {
 	Point position; // This cell's position in the maze
 	Color bgColor;
 	ArrayList<Cell> neighbors; // contains neighbor cells from openings, or removed walls
+	private int label;
 
 	public Cell(Maze maze, Point position) {
 		this.maze = maze;
 		this.position = position;
 		bgColor = Color.white;
 		neighbors = new ArrayList<Cell>();
+		label = 1;
+	}
+
+	public int getLabel() {
+		return label;
+	}
+
+	public void setLabel(int label) {
+		this.label = label;
 	}
 
 	public void initWalls() {
@@ -133,7 +143,7 @@ public class Cell {
 	}
 
 	public String toString() {
-		return "Cell(x=" + this.position.x + ", y=" + this.position.y + ")";
+		return "Cell(x=" + this.position.x + ", y=" + this.position.y + ") " + this.label;
 	}
 
 	public Wall getSouthWall() {
@@ -143,5 +153,11 @@ public class Cell {
 	public Wall getEastWall() {
 		// TODO Auto-generated method stub
 		return walls[Direction.East.num];
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		return super.equals(obj);
 	}
 }

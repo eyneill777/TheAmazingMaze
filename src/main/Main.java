@@ -61,7 +61,6 @@ public class Main extends JFrame {
 
 	public Main() {
 		eh = new EventHandler();
-
 		maze = new Maze(mazeDim);
 		generator = new KruskalsAlgorithm(maze); // MazeGenerator here
 		generator.generateMaze();

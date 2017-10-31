@@ -34,7 +34,7 @@ public class Maze
 			l = false;
 		}
 		if(l = true)
-			cellSize = Toolkit.getDefaultToolkit().getScreenSize().height/size.height;
+			cellSize = (Toolkit.getDefaultToolkit().getScreenSize().height/size.height)-5;
 		else
 			cellSize = Toolkit.getDefaultToolkit().getScreenSize().width/size.width;
 		System.out.println(size.height);
