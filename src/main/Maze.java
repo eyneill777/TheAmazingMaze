@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 
 public class Maze 
 {
+	final int mazeOffset = 70;//The size of the maze border
 	Dimension size;
 	Cell[][] mazeData;//Data for the maze, true = wall, false = hallway
 	BufferedImage mazeImage;//Image the maze is stored in 
@@ -26,7 +27,7 @@ public class Maze
 	
 	private void adjustCellSize()
 	{
-		int smallestDim = Toolkit.getDefaultToolkit().getScreenSize().height;
+		int smallestDim = Toolkit.getDefaultToolkit().getScreenSize().height-mazeOffset;
 		boolean l = true;
 		if(Toolkit.getDefaultToolkit().getScreenSize().width<smallestDim)
 		{
@@ -34,7 +35,7 @@ public class Maze
 			l = false;
 		}
 		if(l = true)
-			cellSize = Toolkit.getDefaultToolkit().getScreenSize().height/size.height;
+			cellSize = (Toolkit.getDefaultToolkit().getScreenSize().height-mazeOffset)/size.height;
 		else
 			cellSize = Toolkit.getDefaultToolkit().getScreenSize().width/size.width;
 	}

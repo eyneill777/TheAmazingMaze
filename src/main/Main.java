@@ -70,7 +70,7 @@ public class Main extends JFrame {
 		graph = new Graph(maze, solutionPath);
 
 		// Menu stuff
-		Font f = new Font("sans-serif", Font.PLAIN, 40);
+		Font f = new Font("sans-serif", Font.PLAIN, 20);
 		UIManager.put("Menu.font", f);
 		menuBar = new JMenuBar();
 		viewMenu = new JMenu("View");
