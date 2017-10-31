@@ -95,18 +95,25 @@ public class Main extends JFrame {
 		menuItem.addActionListener(eh);
 		generateMenu.add(menuItem);
 		menuItem.setFont(f);
-
+		
+		// Wilson's Algorithm
+		menuItem = new JMenuItem("Wilsons");
+		menuItem.addActionListener(eh);
+		generateMenu.add(menuItem);
+		menuItem.setFont(f);
 
 		mazePanel = new JPanel();
 		mazePanel.addMouseListener(eh);
 		this.add(mazePanel);
-
+		printTheStats();
+	}
+	private void printTheStats() {
+		System.out.println("New Maze");
 		System.out.println(String.format("The number of dead ends in the maze is %d ", graph.numberOfDeadEnds()));
 		System.out.println(String.format("The number of intesections in the maze %d ", graph.numberOfIntersections()));
 		System.out.println("The solution path found is:");
 		System.out.println(solutionPath);
-		System.out.println(
-				String.format("The length of the solution path (in units of cells) is %d ", graph.traversalLength()));
+		System.out.println(String.format("The length of the solution path (in units of cells) is %d ", graph.traversalLength()));
 		System.out.println(String.format("The complexity of the solution path is %f", graph.solutionComplexity()));
 		System.out.println(String.format("The maze complexity is %f ", graph.mazeComplexity()));
 		System.out.println(String.format("The maze difficulty is %f ", graph.mazeDifficulty()));
@@ -169,6 +176,20 @@ public class Main extends JFrame {
 				maze.reset();
 				generator = new KruskalsAlgorithm(maze); // MazeGenerator here
 				generator.generateMaze();
+				solution = new AstarMazeSolver(maze);
+				solutionPath = solution.search();
+				graph = new Graph(maze, solutionPath);
+				printTheStats();
+				repaint();
+			}
+			else if (e.getActionCommand().equals("Wilsons")) {
+				maze.reset();
+				generator = new Wilson(maze); // MazeGenerator here
+				generator.generateMaze();
+				solution = new AstarMazeSolver(maze);
+				solutionPath = solution.search();
+				graph = new Graph(maze, solutionPath);
+				printTheStats();
 				repaint();
 			}
 		}
