@@ -107,6 +107,12 @@ public class Main extends JFrame {
 		menuItem.addActionListener(eh);
 		generateMenu.add(menuItem);
 		menuItem.setFont(f);
+		
+		// SideWinder Algorithm
+		menuItem = new JMenuItem("Sidewinder");
+		menuItem.addActionListener(eh);
+		generateMenu.add(menuItem);
+		menuItem.setFont(f);
 
 		mazePanel = new JPanel();
 		mazePanel.addMouseListener(eh);
@@ -202,6 +208,16 @@ public class Main extends JFrame {
 				maze.reset();
 				generator = new RecursiveDivision(maze); // MazeGenerator here
 				generator.generateMaze();
+				repaint();
+			}
+			else if (e.getActionCommand().equals("Sidewinder")) {
+				maze.reset();
+				generator = new Sidewinder(maze); // MazeGenerator here
+				generator.generateMaze();
+				solution = new AstarMazeSolver(maze);
+				solutionPath = solution.search();
+				graph = new Graph(maze, solutionPath);
+				printTheStats();
 				repaint();
 			}
 		}
