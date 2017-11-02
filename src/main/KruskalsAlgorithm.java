@@ -77,46 +77,49 @@ public class KruskalsAlgorithm extends MazeGenerator {
 			Cell tempCell = walls.get(0).getCell1();
 			Cell tempCell2 = walls.get(0).getCell2();
 			Direction tempD = walls.get(0).getRelativeCellPosition();
-			if (!visited.contains(tempCell) && !visited.contains(tempCell2)) { // Cells are in their own sets and haven't been visited
+			if (tempCell.getLabel() == tempCell2.getLabel()) {
+				// System.out.println("0 " +tempCell + " " + tempCell2);
+				walls.remove(0);
+			} else if (!visited.contains(tempCell) && !visited.contains(tempCell2)) { // Cells are in their own sets and
+				// haven't been visited
 				tempCell.removeWall(tempD);
 				walls.remove(0);
 				visited.add(tempCell);
 				visited.add(tempCell2);
 				tempCell.setLabel(tempCell2.getLabel()); // Give cell 2 the same label as cell 1. Put them in the same set.
-
+				// System.out.println("1 " +tempCell + " " + tempCell2);
 			} else if (!visited.contains(tempCell)) { // Cell 1 is in it's own set. Cell2 is in a larger set.
 				tempCell.removeWall(tempD);
 				walls.remove(0);
 				visited.add(tempCell);
 				tempCell.setLabel(tempCell2.getLabel());
+				// System.out.println("2 " +tempCell + " " + tempCell2);
 
 			} else if (!visited.contains(tempCell2)) { // Cell 2 is in it's own set. Cell2 is in a larger set.
 				tempCell.removeWall(tempD);
 				walls.remove(0);
 				visited.add(tempCell2);
 				tempCell2.setLabel(tempCell.getLabel());
-				
-			} else if (visited.contains(tempCell) && visited.contains(tempCell2)
-					&& tempCell.getLabel() != tempCell2.getLabel()) { // cell 2 and cell 1 have been visited but are in different sets.
-				tempCell.removeWall(tempD);
+				// System.out.println("3 " +tempCell + " " + tempCell2);
+			} else if (visited.contains(tempCell) && visited.contains(tempCell2)) { // cell 2 and cell 1 have been
+																					// visited but are in different
+																					// sets.
+				if (tempCell.getLabel() != tempCell2.getLabel()) {
+					//System.out.println(tempCell +"  "+ tempCell2);
+					tempCell.removeWall(tempD);
+				}
+				// System.out.println("Test \t" +tempCell + " " + tempCell2);
 				walls.remove(0);
-				for (int i = 0; i < maze.mazeData.length; i++) {
-					for (int j = 0; j < maze.mazeData[i].length; j++) {
-						if (maze.mazeData[i][j].getLabel() == (tempCell.getLabel())) {
-							maze.mazeData[i][j].setLabel(tempCell2.getLabel()); // All of set1 joins set 2
-							System.out.println(maze.mazeData[i][j]);
+				for (int i=0; i<maze.mazeData.length; i++) {
+					for (int j = 0; j<maze.mazeData[i].length;j++) {
+						if (maze.mazeData[i][j].getLabel()==tempCell2.getLabel()) {
+							maze.mazeData[i][j].setLabel(tempCell2.getLabel());
 						}
 					}
-					}
-
-				
-			} else {
-				walls.remove(0);
-				
+				}
 			}
-
 		}
-
+		System.out.println("visited " + visited);
 	}
 
 }

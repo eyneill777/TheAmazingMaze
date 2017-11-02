@@ -69,7 +69,7 @@ public class Main extends JFrame {
 		graph = new Graph(maze, solutionPath);
 
 		// Menu stuff
-		Font f = new Font("sans-serif", Font.PLAIN, 40);
+		Font f = new Font("sans-serif", Font.PLAIN, 20);
 		UIManager.put("Menu.font", f);
 		menuBar = new JMenuBar();
 		viewMenu = new JMenu("View");
@@ -94,9 +94,21 @@ public class Main extends JFrame {
 		menuItem.addActionListener(eh);
 		generateMenu.add(menuItem);
 		menuItem.setFont(f);
+
+		// Recursive Division
+				menuItem = new JMenuItem("Recursive");
+				menuItem.addActionListener(eh);
+				generateMenu.add(menuItem);
+				menuItem.setFont(f);
 		
 		// Wilson's Algorithm
 		menuItem = new JMenuItem("Wilsons");
+		menuItem.addActionListener(eh);
+		generateMenu.add(menuItem);
+		menuItem.setFont(f);
+		
+		// SideWinder Algorithm
+		menuItem = new JMenuItem("Sidewinder");
 		menuItem.addActionListener(eh);
 		generateMenu.add(menuItem);
 		menuItem.setFont(f);
@@ -184,6 +196,22 @@ public class Main extends JFrame {
 			else if (e.getActionCommand().equals("Wilsons")) {
 				maze.reset();
 				generator = new Wilson(maze); // MazeGenerator here
+				generator.generateMaze();
+				solution = new AstarMazeSolver(maze);
+				solutionPath = solution.search();
+				graph = new Graph(maze, solutionPath);
+				printTheStats();
+				repaint();
+			}
+			else if (e.getActionCommand().equals("Recursive")) {
+				maze.reset();
+				generator = new RecursiveDivision(maze); // MazeGenerator here
+				generator.generateMaze();
+				repaint();
+			}
+			else if (e.getActionCommand().equals("Sidewinder")) {
+				maze.reset();
+				generator = new Sidewinder(maze); // MazeGenerator here
 				generator.generateMaze();
 				solution = new AstarMazeSolver(maze);
 				solutionPath = solution.search();
