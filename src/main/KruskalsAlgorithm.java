@@ -18,6 +18,7 @@ import java.util.Set;
 public class KruskalsAlgorithm extends MazeGenerator {
 	private ArrayList<Wall> walls = new ArrayList<Wall>();
 	private Set<Cell> visited = new HashSet<Cell>();
+	private ArrayList<Cell> cells = new ArrayList<>();
 
 	public KruskalsAlgorithm(Maze maze) {
 		super(maze);
@@ -36,32 +37,24 @@ public class KruskalsAlgorithm extends MazeGenerator {
 						walls.add(maze.mazeData[i][j].getNorthWall());
 					}
 				}
-				if (maze.mazeData[i][j].hasWall(Direction.South)) {
-					if (!walls.contains(maze.mazeData[i][j].getSouthWall())) {
-						walls.add(maze.mazeData[i][j].getSouthWall());
-					}
-				}
 				if (maze.mazeData[i][j].hasWall(Direction.East)) {
 					if (!walls.contains(maze.mazeData[i][j].getEastWall())) {
 						walls.add(maze.mazeData[i][j].getEastWall());
 					}
 				}
-				if (maze.mazeData[i][j].hasWall(Direction.West)) {
-					if (!walls.contains(maze.mazeData[i][j].getWestWall())) {
-						walls.add(maze.mazeData[i][j].getWestWall());
-					}
-				}
+				cells.add(maze.mazeData[i][j]);
 				counter++;
 			}
 
 		}
+
 
 		// Removing all the outside walls
 		for (int i = walls.size() - 1; i >= 0; i--) {
 			if (walls.get(i).isOutsideWall())
 				walls.remove(i);
 		}
-
+		System.out.println(walls.size()+"\t"+walls);
 		// Will shuffle the walls
 		for (int i = 0; i < walls.size(); i++) {
 			int ind = rand.nextInt(walls.size());
@@ -84,7 +77,6 @@ public class KruskalsAlgorithm extends MazeGenerator {
 				// haven't been visited
 				tempCell.removeWall(tempD);
 				walls.remove(0);
-				visited.add(tempCell);
 				visited.add(tempCell2);
 				tempCell.setLabel(tempCell2.getLabel()); // Give cell 2 the same label as cell 1. Put them in the same
 															// set.
@@ -97,25 +89,25 @@ public class KruskalsAlgorithm extends MazeGenerator {
 				// System.out.println("2 " +tempCell + " " + tempCell2);
 
 			} else if (!visited.contains(tempCell2)) { // Cell 2 is in it's own set. Cell2 is in a larger set.
+				visited.add(tempCell2);
 				tempCell.removeWall(tempD);
 				walls.remove(0);
-				visited.add(tempCell2);
 				tempCell2.setLabel(tempCell.getLabel());
 				// System.out.println("3 " +tempCell + " " + tempCell2);
 			} else if (visited.contains(tempCell) && visited.contains(tempCell2)) { // cell 2 and cell 1 have been
 				walls.remove(0);
-				if (tempCell.getLabel() != tempCell2.getLabel())  {  // visited but are in different sets.
+				if (tempCell.getLabel() != tempCell2.getLabel()) { // visited but are in different sets.
 					// System.out.println(tempCell +" "+ tempCell2);
 					tempCell.removeWall(tempD);
 				}
-				for (Cell c: visited) {
-					
-					if (c.getLabel() == tempCell2.getLabel()) {
-						c.setLabel(tempCell.getLabel());
-						System.out.println(c);
+				int label = tempCell.getLabel();
+				
+				for (Cell c : visited) {
+					if (c.getLabel() == label && !c.equals(tempCell)) {
+						c.setLabel(tempCell2.getLabel());
 					}
 				}
-				// System.out.println("Test \t" +tempCell + " " + tempCell2);
+				tempCell.setLabel(tempCell2.getLabel());
 				
 			}
 		}

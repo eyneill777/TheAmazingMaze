@@ -25,7 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 public class Main extends JFrame {
-	final Dimension mazeDim = new Dimension(4, 4);// Size of the maze
+	final Dimension mazeDim = new Dimension(50, 50);// Size of the maze
 	static Dimension windowDim;// Size of the window
 	Maze maze;
 	Graph graph;

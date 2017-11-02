@@ -18,9 +18,9 @@ public class Cell {
 		this.position = position;
 		bgColor = Color.white;
 		neighbors = new ArrayList<Cell>();
-		label = 1;
+		label = 1; 
 	}
-
+  
 	public int getLabel() {
 		return label;
 	}
@@ -152,12 +152,16 @@ public class Cell {
 	}
 	public Wall getEastWall() {
 		// TODO Auto-generated method stub
-		return walls[Direction.East.num];
+		return walls[Direction.East.num]; 
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
-		return super.equals(obj);
+		Cell other = (Cell ) obj;
+		if  (this.position == other.position &&
+				this.label ==other.label) {
+			return true;	
+		}
+		else return false;
 	}
 }
