@@ -107,6 +107,12 @@ public class Main extends JFrame {
 		generateMenu.add(menuItem);
 		menuItem.setFont(f);
 		
+		// Prim's Algorithm
+		menuItem = new JMenuItem("Prim");
+		menuItem.addActionListener(eh);
+		generateMenu.add(menuItem);
+		menuItem.setFont(f);
+		
 		// SideWinder Algorithm
 		menuItem = new JMenuItem("Sidewinder");
 		menuItem.addActionListener(eh);
@@ -212,6 +218,16 @@ public class Main extends JFrame {
 			else if (e.getActionCommand().equals("Sidewinder")) {
 				maze.reset();
 				generator = new Sidewinder(maze); // MazeGenerator here
+				generator.generateMaze();
+				solution = new AstarMazeSolver(maze);
+				solutionPath = solution.search();
+				graph = new Graph(maze, solutionPath);
+				printTheStats();
+				repaint();
+			}
+			else if (e.getActionCommand().equals("Prim")) {
+				maze.reset();
+				generator = new Prims(maze); // MazeGenerator here
 				generator.generateMaze();
 				solution = new AstarMazeSolver(maze);
 				solutionPath = solution.search();
