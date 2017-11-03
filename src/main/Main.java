@@ -40,6 +40,7 @@ public class Main extends JFrame {
 	private AbstractButton menuItem;
 	private EventHandler eh;
 	private Mode drawMode = Mode.MAZE; // default to maze
+	private double startTime, stopTime;
 
 	private enum Mode {
 		GRAPH, MAZE;
@@ -63,7 +64,9 @@ public class Main extends JFrame {
 		eh = new EventHandler();
 		maze = new Maze(mazeDim);
 		generator = new KruskalsAlgorithm(maze); // MazeGenerator here
+		startTime = System.currentTimeMillis();
 		generator.generateMaze();
+		stopTime = System.currentTimeMillis();
 		solution = new AstarMazeSolver(maze);
 		solutionPath = solution.search();
 		graph = new Graph(maze, solutionPath);
@@ -134,6 +137,7 @@ public class Main extends JFrame {
 		System.out.println(String.format("The complexity of the solution path is %f", graph.solutionComplexity()));
 		System.out.println(String.format("The maze complexity is %f ", graph.mazeComplexity()));
 		System.out.println(String.format("The maze difficulty is %f ", graph.mazeDifficulty()));
+		System.out.println(String.format("Generation took %f ms", stopTime - startTime));
 	}
 
 	public void paint(Graphics gfx) {
@@ -192,7 +196,9 @@ public class Main extends JFrame {
 			else if (e.getActionCommand().equals("Kruskals")) {
 				maze.reset();
 				generator = new KruskalsAlgorithm(maze); // MazeGenerator here
+				startTime = System.currentTimeMillis();
 				generator.generateMaze();
+				stopTime = System.currentTimeMillis();
 				solution = new AstarMazeSolver(maze);
 				solutionPath = solution.search();
 				graph = new Graph(maze, solutionPath);
@@ -202,7 +208,9 @@ public class Main extends JFrame {
 			else if (e.getActionCommand().equals("Wilsons")) {
 				maze.reset();
 				generator = new Wilson(maze); // MazeGenerator here
+				startTime = System.currentTimeMillis();
 				generator.generateMaze();
+				stopTime = System.currentTimeMillis();
 				solution = new AstarMazeSolver(maze);
 				solutionPath = solution.search();
 				graph = new Graph(maze, solutionPath);
@@ -218,7 +226,9 @@ public class Main extends JFrame {
 			else if (e.getActionCommand().equals("Sidewinder")) {
 				maze.reset();
 				generator = new Sidewinder(maze); // MazeGenerator here
+				startTime = System.currentTimeMillis();
 				generator.generateMaze();
+				stopTime = System.currentTimeMillis();
 				solution = new AstarMazeSolver(maze);
 				solutionPath = solution.search();
 				graph = new Graph(maze, solutionPath);
@@ -228,7 +238,9 @@ public class Main extends JFrame {
 			else if (e.getActionCommand().equals("Prim")) {
 				maze.reset();
 				generator = new Prims(maze); // MazeGenerator here
+				startTime = System.currentTimeMillis();
 				generator.generateMaze();
+				stopTime = System.currentTimeMillis();
 				solution = new AstarMazeSolver(maze);
 				solutionPath = solution.search();
 				graph = new Graph(maze, solutionPath);
