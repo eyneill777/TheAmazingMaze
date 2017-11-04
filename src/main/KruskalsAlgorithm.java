@@ -77,6 +77,7 @@ public class KruskalsAlgorithm extends MazeGenerator {
 				// haven't been visited
 				tempCell.removeWall(tempD);
 				walls.remove(0);
+				visited.add(tempCell);
 				visited.add(tempCell2);
 				tempCell.setLabel(tempCell2.getLabel()); // Give cell 2 the same label as cell 1. Put them in the same
 															// set.
