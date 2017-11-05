@@ -121,6 +121,12 @@ public class Main extends JFrame {
 		menuItem.addActionListener(eh);
 		generateMenu.add(menuItem);
 		menuItem.setFont(f);
+		
+		// Eller 's algorithm
+		menuItem = new JMenuItem("Ellers");
+		menuItem.addActionListener(eh);
+		generateMenu.add(menuItem);
+		menuItem.setFont(f);
 
 		mazePanel = new JPanel();
 		mazePanel.addMouseListener(eh);
@@ -238,6 +244,18 @@ public class Main extends JFrame {
 			else if (e.getActionCommand().equals("Prim")) {
 				maze.reset();
 				generator = new Prims(maze); // MazeGenerator here
+				startTime = System.currentTimeMillis();
+				generator.generateMaze();
+				stopTime = System.currentTimeMillis();
+				solution = new AstarMazeSolver(maze);
+				solutionPath = solution.search();
+				graph = new Graph(maze, solutionPath);
+				printTheStats();
+				repaint();
+			}
+			else if (e.getActionCommand().equals("Ellers")) {
+				maze.reset();
+				generator = new Ellers(maze); // MazeGenerator here
 				startTime = System.currentTimeMillis();
 				generator.generateMaze();
 				stopTime = System.currentTimeMillis();
