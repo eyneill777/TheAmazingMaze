@@ -7,10 +7,11 @@ import java.util.HashSet;
 import java.util.Random;
 
 /**
- * @author Steven Lawrence
- * Eller's creates the Maze one row at a time, where once a row has been generated, the algorithm 
- * no longer looks at it. Each cell in a row is contained in a set, where two cells are in
- * the same set if there's a path between them through the part of the Maze that's been made so far. 
+ * @author Steven Lawrence Eller's creates the Maze one row at a time, where
+ *         once a row has been generated, the algorithm no longer looks at it.
+ *         Each cell in a row is contained in a set, where two cells are in the
+ *         same set if there's a path between them through the part of the Maze
+ *         that's been made so far.
  */
 public class Ellers extends MazeGenerator {
 	int setCounter;
@@ -26,67 +27,50 @@ public class Ellers extends MazeGenerator {
 		h = (int) maze.size.getHeight();
 		rand = new Random();
 	}
-	
+
 	/**
-	 * Connects sets in the same row by a 50/50 probability if its not the last row.  If it is the
-	 * last row then all sets must be connected to one another in order to make the maze a perfect maze.
-	 * @param row the row to undergo set adjoining
-	 * @param lastRow boolean on whether the row is the last row or not
+	 * Connects sets in the same row by a 50/50 probability if its not the last row.
+	 * If it is the last row then all sets must be connected to one another in order
+	 * to make the maze a perfect maze.
+	 * 
+	 * @param row
+	 *            the row to undergo set adjoining
+	 * @param lastRow
+	 *            boolean on whether the row is the last row or not
 	 */
 	private void adjoinRow(int row, boolean lastRow) {
-		// Check if its the last row
-		if (!lastRow) {
-			// if not go through the row checking to see if neighbors are in the same set or not
-			for (int x = 0; x < w - 1; x++) {
-				Cell leftCell = mazeGrid[x][row];
-				Cell rightCell = mazeGrid[x + 1][row];
-				if (leftCell.getLabel() != rightCell.getLabel()) {
-					// if they are not in the same set then giveng a 50/50 chance adjoin them into one set
-					if (rand.nextBoolean() == true) {
-						leftCell.removeWall(Direction.East);
-						rightCell.setLabel(leftCell.getLabel());
-					}
+		// if not go through the row checking to see if neighbors are in the same set or
+		// not
+		for (int x = 0; x < w - 1; x++) {
+			Cell leftCell = mazeGrid[x][row];
+			Cell rightCell = mazeGrid[x + 1][row];
+			if (leftCell.getLabel() != rightCell.getLabel()) {
+				// if they are not in the same set then giveng a 50/50 chance adjoin them into
+				// one set
+				if (rand.nextBoolean() == true || lastRow) {
+					leftCell.removeWall(Direction.East);
+					rightCell.setLabel(leftCell.getLabel());
 				}
-			}
-		} else { // for the last row all sets must be adjoined together
-			HashSet<Integer> setNums = new HashSet<Integer>();
-			HashSet<Integer> numRepeats = new HashSet<Integer>();
-			int label;
-			for (int x = 0; x < w - 1; x++) {
-				label = mazeGrid[x][row].getLabel();
-				if (setNums.contains(label)) {
-					numRepeats.add(label); // get all the cells that were broken into from the last vertical adjoining
-				} else {
-					setNums.add(label);
-				}
-			}
-			for (int x = 0; x < w - 1; x++) {
-				Cell leftCell = mazeGrid[x][row];
-				Cell rightCell = mazeGrid[x + 1][row];
-				// join all of the unique sets
-				if (leftCell.getLabel() != rightCell.getLabel() && !numRepeats.contains(rightCell.getLabel())) {
-						leftCell.removeWall(Direction.East);
-						rightCell.setLabel(leftCell.getLabel());
-				}
-			}
-			if (mazeGrid[w - 1][row].getWestWall() != null) { // handle the last cell in the row
-				mazeGrid[w - 1][row].removeWall(Direction.West);
 			}
 		}
 	}
 
 	/**
 	 * Connects the sets in a row with random chance
-	 * @param row a non last row
+	 * 
+	 * @param row
+	 *            a non last row
 	 */
 	private void adjoinRow(int row) {
 		this.adjoinRow(row, false);
 	}
 
 	/**
-	 *  connects sets in the current row to cells in the rows below. Atleast one connection must be
-	 *  made per set in the row.
-	 * @param row a non last row
+	 * connects sets in the current row to cells in the rows below. Atleast one
+	 * connection must be made per set in the row.
+	 * 
+	 * @param row
+	 *            a non last row
 	 */
 	private void adjoinVertical(int row) {
 		int setStart = 0, setSize, selection;
@@ -97,7 +81,8 @@ public class Ellers extends MazeGenerator {
 			Cell rightCell = mazeGrid[x + 1][row];
 			if (leftCell.getLabel() != rightCell.getLabel() || x == w - 2) {
 				setSize = x - setStart + 1;
-				if (x == w - 2) { // handle the last cell, it will either be in its own set, or apart of the last set
+				if (x == w - 2) { // handle the last cell, it will either be in its own set, or apart of the last
+									// set
 					if (leftCell.getLabel() != rightCell.getLabel()) {
 						rightCell.getSouthWall().getCell2().setLabel(leftCell.getLabel());
 						rightCell.removeWall(Direction.South);
@@ -105,50 +90,23 @@ public class Ellers extends MazeGenerator {
 						setSize = x - setStart + 2;
 					}
 				}
-				// choose a random cell in the found set to take care of the required one connection per set
+				// choose a random cell in the found set to take care of the required one
+				// connection per set
 				selection = setStart + rand.nextInt(setSize);
 				chosenCell = mazeGrid[selection][row];
 				chosenCell.getSouthWall().getCell2().setLabel(chosenCell.getLabel());
 				chosenCell.removeWall(Direction.South);
-				if (setSize > 3) { // if its a large set make randomly make more connects or not
-					// make sure to not make south connections of neighbors to avoid forming loops
-					boolean prev = false;
-					for (int c = setStart; c < setSize + setStart; c++) {
-						Cell setCell = mazeGrid[c][row];
-						if (chosenCell.equals(mazeGrid[0][row])) {
-							if (setCell.equals(chosenCell) || setCell.equals(mazeGrid[selection + 1][row])) {
-								continue;
-							}
-						} else if (chosenCell.equals(mazeGrid[w - 1][row])) {
-							if (c == w - 1 || c == w - 2) {
-								continue;
-							}
-						} else if (setCell.equals(chosenCell) || setCell.equals(mazeGrid[selection - 1][row])
-								|| setCell.equals(mazeGrid[selection + 1][row])) {
-							if (prev) {
-								prev = false;
-							}
-							continue;
-						} else if (prev) {
-							prev = false;
-							continue;
-						} else {
-							if (rand.nextBoolean() == true) {
-								setCell.getSouthWall().getCell2().setLabel(setCell.getLabel());
-								setCell.removeWall(Direction.South);
-								prev = true;
-							}
-						}
-					}
-				}
 				setStart = x + 1; // set the new starting position of the set
 			}
 		}
 	}
-	
+
 	/**
-	 * go through a row and define cells that were not broken into from the above row to their own set
-	 * @param row the row to set
+	 * go through a row and define cells that were not broken into from the above
+	 * row to their own set
+	 * 
+	 * @param row
+	 *            the row to set
 	 */
 	private void setRow(int row) {
 		for (int x = 0; x < w; x++) {
@@ -161,8 +119,9 @@ public class Ellers extends MazeGenerator {
 
 	@Override
 	/**
-	 * generate the maze by setting the rows, adjoining them horizontally, and vertically until the 
-	 * last row is reach then all the sets must be connected to one another.
+	 * generate the maze by setting the rows, adjoining them horizontally, and
+	 * vertically until the last row is reach then all the sets must be connected to
+	 * one another.
 	 */
 	public void generateMaze() {
 		// loop through the rows of the maze

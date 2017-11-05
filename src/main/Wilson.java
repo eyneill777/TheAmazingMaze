@@ -30,18 +30,9 @@ public class Wilson extends MazeGenerator {
 		this.maze = maze;
 		yBound = maze.size.height;
 		xBound = maze.size.width;
-		remaining = new HashSet<Cell>(); // to start off add every cell in the maze to remaining
-		for (int i = 0; i < maze.mazeData.length; i++) {
-			for (int k = 0; k < maze.mazeData[0].length; k++) {
-				remaining.add(maze.mazeData[i][k]);
-			}
-		}
-		// select a random cell to add to the maze and then remove it from remaining
+		remaining = new HashSet<Cell>();
 		rand = new Random();
 		inMaze = new HashSet<Cell>();
-		Cell inCell =  maze.mazeData[rand.nextInt(xBound)][rand.nextInt(yBound)];
-		inMaze.add(inCell);
-		remaining.remove(inCell);
 	}
 	
 	/**
@@ -105,6 +96,16 @@ public class Wilson extends MazeGenerator {
 	 * Perform walks until the maze is complete
 	 */
 	public void generateMaze() {
+		// to start off add every cell in the maze to remaining
+		for (int i = 0; i < maze.mazeData.length; i++) {
+			for (int k = 0; k < maze.mazeData[0].length; k++) {
+				remaining.add(maze.mazeData[i][k]);
+			}
+		}
+		// select a random cell to add to the maze and then remove it from remaining
+		Cell inCell =  maze.mazeData[rand.nextInt(xBound)][rand.nextInt(yBound)];
+		inMaze.add(inCell);
+		remaining.remove(inCell);
 		while (!remaining.isEmpty()) {
 			walk();
 		}

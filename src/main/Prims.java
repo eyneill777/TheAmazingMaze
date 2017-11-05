@@ -34,10 +34,6 @@ public class Prims extends MazeGenerator {
 		frontier = new HashSet<Cell>();
 		yBound = maze.size.height;
 		xBound = maze.size.width;
-		Cell startCell = maze.mazeData[rand.nextInt(xBound)][rand.nextInt(yBound)];
-		mazeSet.add(startCell);
-		addFrontier(startCell);
-		System.out.println("hi" + startCell);
 	}
 
 	@Override
@@ -49,7 +45,10 @@ public class Prims extends MazeGenerator {
 		int index;
 		Cell chosenCell;
 		Wall frontierWall;
-		// while there there is still canidate cells to be added to the maze
+		// while there there is still candidate cells to be added to the maze
+		Cell startCell = maze.mazeData[rand.nextInt(xBound)][rand.nextInt(yBound)];
+		mazeSet.add(startCell);
+		addFrontier(startCell);
 		
 		while (!frontier.isEmpty()){
 			// sellect a random frontier cell to add to the maze
