@@ -58,6 +58,17 @@ public class Maze
 		}
 	}
 	
+	public void clear()
+	{
+		for(int x = 0;x < size.width;x++)
+		{
+			for(int y = 0;y < size.height;y++)
+			{
+				mazeData[x][y] = new Cell(this, new Point(x,y));
+			}
+		}
+	}
+	
 	public void draw(Graphics2D g, Dimension panelSize)
 	{
 		g.setColor(Color.black);
