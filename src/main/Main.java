@@ -13,6 +13,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.AbstractButton;
@@ -25,7 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 public class Main extends JFrame {
-	final Dimension mazeDim = new Dimension(50, 50);// Size of the maze 
+	final Dimension mazeDim = new Dimension(100, 100);// Size of the maze 
 	static Dimension windowDim;// Size of the window
 	Maze maze;
 	Graph graph;
@@ -41,6 +43,7 @@ public class Main extends JFrame {
 	private EventHandler eh;
 	private Mode drawMode = Mode.MAZE; // default to maze
 	private double startTime, stopTime;
+	private static FileWriter writer = null;
 
 	private enum Mode {
 		GRAPH, MAZE;
@@ -61,6 +64,8 @@ public class Main extends JFrame {
 	}
 
 	public Main() {
+		//initialize the filewriter for statistics
+		
 		eh = new EventHandler();
 		maze = new Maze(mazeDim);
 		generator = new KruskalsAlgorithm(maze); // MazeGenerator here
@@ -194,95 +199,114 @@ public class Main extends JFrame {
 		}
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (e.getActionCommand().equals("Graph View")) {
-				drawMode = Mode.GRAPH;
-				System.out.println("test");
-				repaint();
+		public void actionPerformed(ActionEvent e) 
+		{
+			//try{
+			//	writer = new FileWriter("src//main//data.txt");
+			//}
+			//catch(Exception e1)
+			//{
+			//	e1.printStackTrace();
+			//}
+			//for(int i = 0;i<100;i++)
+			{
+				if (e.getActionCommand().equals("Graph View")) {
+					drawMode = Mode.GRAPH;
+					System.out.println("test");
+					repaint();
+				}
+				else if (e.getActionCommand().equals("Maze View")) {
+					drawMode = Mode.MAZE;
+					System.out.println("test");
+					repaint();
+				}
+	
+				else if (e.getActionCommand().equals("Kruskals")) {
+					maze.reset();
+					generator = new KruskalsAlgorithm(maze); // MazeGenerator here
+					startTime = System.currentTimeMillis();
+					generator.generateMaze();
+					stopTime = System.currentTimeMillis();
+					solution = new AstarMazeSolver(maze);
+					solutionPath = solution.search();
+					graph = new Graph(maze, solutionPath);
+					printTheStats();
+					repaint();
+				}
+				else if (e.getActionCommand().equals("Wilsons")) {
+					maze.reset();
+					generator = new Wilson(maze); // MazeGenerator here
+					startTime = System.currentTimeMillis();
+					generator.generateMaze();
+					stopTime = System.currentTimeMillis();
+					solution = new AstarMazeSolver(maze);
+					solutionPath = solution.search();
+					graph = new Graph(maze, solutionPath);
+					printTheStats();
+					repaint();
+				}
+				else if (e.getActionCommand().equals("Recursive")) {
+					maze.reset();
+					generator = new RecursiveDivision(maze); // MazeGenerator here
+					generator.generateMaze();
+					repaint();
+				}
+				else if (e.getActionCommand().equals("Sidewinder")) {
+					maze.reset();
+					generator = new Sidewinder(maze); // MazeGenerator here
+					startTime = System.currentTimeMillis();
+					generator.generateMaze();
+					stopTime = System.currentTimeMillis();
+					solution = new AstarMazeSolver(maze);
+					solutionPath = solution.search();
+					graph = new Graph(maze, solutionPath);
+					printTheStats();
+					repaint();
+				}
+				else if (e.getActionCommand().equals("Prim")) {
+					maze.reset();
+					generator = new Prims(maze); // MazeGenerator here
+					startTime = System.currentTimeMillis();
+					generator.generateMaze();
+					stopTime = System.currentTimeMillis();
+					solution = new AstarMazeSolver(maze);
+					solutionPath = solution.search();
+					graph = new Graph(maze, solutionPath);
+					printTheStats();
+					repaint();
+				}
+				else if (e.getActionCommand().equals("Ellers")) {
+					maze.reset();
+					generator = new Ellers(maze); // MazeGenerator here
+					startTime = System.currentTimeMillis();
+					generator.generateMaze();
+					stopTime = System.currentTimeMillis();
+					solution = new AstarMazeSolver(maze);
+					solutionPath = solution.search();
+					graph = new Graph(maze, solutionPath);
+					printTheStats();
+					repaint();
+				} 
+				else if (e.getActionCommand().equals("BackTracker")) {
+					maze.reset();
+					generator = new BackTracker(maze); // MazeGenerator here
+					startTime = System.currentTimeMillis();
+					generator.generateMaze();
+					stopTime = System.currentTimeMillis();
+					solution = new AstarMazeSolver(maze);
+					solutionPath = solution.search();
+					graph = new Graph(maze, solutionPath);
+					printTheStats();
+					repaint();
+				}
+				//logInfo();
+				//System.out.println(i);
 			}
-			else if (e.getActionCommand().equals("Maze View")) {
-				drawMode = Mode.MAZE;
-				System.out.println("test");
-				repaint();
-			}
-			else if (e.getActionCommand().equals("Kruskals")) {
-				maze.reset();
-				generator = new KruskalsAlgorithm(maze); // MazeGenerator here
-				startTime = System.currentTimeMillis();
-				generator.generateMaze();
-				stopTime = System.currentTimeMillis();
-				solution = new AstarMazeSolver(maze);
-				solutionPath = solution.search();
-				graph = new Graph(maze, solutionPath);
-				printTheStats();
-				repaint();
-			}
-			else if (e.getActionCommand().equals("Wilsons")) {
-				maze.reset();
-				generator = new Wilson(maze); // MazeGenerator here
-				startTime = System.currentTimeMillis();
-				generator.generateMaze();
-				stopTime = System.currentTimeMillis();
-				solution = new AstarMazeSolver(maze);
-				solutionPath = solution.search();
-				graph = new Graph(maze, solutionPath);
-				printTheStats();
-				repaint();
-			}
-			else if (e.getActionCommand().equals("Recursive")) {
-				maze.reset();
-				generator = new RecursiveDivision(maze); // MazeGenerator here
-				generator.generateMaze();
-				repaint();
-			}
-			else if (e.getActionCommand().equals("Sidewinder")) {
-				maze.reset();
-				generator = new Sidewinder(maze); // MazeGenerator here
-				startTime = System.currentTimeMillis();
-				generator.generateMaze();
-				stopTime = System.currentTimeMillis();
-				solution = new AstarMazeSolver(maze);
-				solutionPath = solution.search();
-				graph = new Graph(maze, solutionPath);
-				printTheStats();
-				repaint();
-			}
-			else if (e.getActionCommand().equals("Prim")) {
-				maze.reset();
-				generator = new Prims(maze); // MazeGenerator here
-				startTime = System.currentTimeMillis();
-				generator.generateMaze();
-				stopTime = System.currentTimeMillis();
-				solution = new AstarMazeSolver(maze);
-				solutionPath = solution.search();
-				graph = new Graph(maze, solutionPath);
-				printTheStats();
-				repaint();
-			}
-			else if (e.getActionCommand().equals("Ellers")) {
-				maze.reset();
-				generator = new Ellers(maze); // MazeGenerator here
-				startTime = System.currentTimeMillis();
-				generator.generateMaze();
-				stopTime = System.currentTimeMillis();
-				solution = new AstarMazeSolver(maze);
-				solutionPath = solution.search();
-				graph = new Graph(maze, solutionPath);
-				printTheStats();
-				repaint();
-			}
-			else if (e.getActionCommand().equals("BackTracker")) {
-				maze.reset();
-				generator = new BackTracker(maze); // MazeGenerator here
-				startTime = System.currentTimeMillis();
-				generator.generateMaze();
-				stopTime = System.currentTimeMillis();
-				solution = new AstarMazeSolver(maze);
-				solutionPath = solution.search();
-				graph = new Graph(maze, solutionPath);
-				printTheStats();
-				repaint();
-			}
+			//try {
+			//	writer.close();
+			//} catch (IOException e1) {
+			//	e1.printStackTrace();
+			//}
 		}
 
 		@Override
@@ -295,6 +319,20 @@ public class Main extends JFrame {
 		public void mouseMoved(MouseEvent arg0) {
 			// TODO Auto-generated method stub
 
+		}
+		
+		private void logInfo()
+		{
+			double time = stopTime-startTime;
+			String data = ""+graph.numberOfDeadEnds()+"\t"+graph.numberOfIntersections()+"\t"+graph.traversalLength()+"\t"+graph.solutionComplexity()+"\t"+graph.mazeComplexity()+"\t"+graph.mazeDifficulty()+"\t"+time+"\n";
+			try{
+				writer.write(data);
+				writer.flush();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 }
