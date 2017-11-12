@@ -20,11 +20,11 @@ public class RecursiveDivision extends MazeGenerator
 	}
 	
 	private void createChamber(int x, int y, int width, int height, int count)
-	{
+	{ 
 		int fx = x+width, fy = y+height;
 		System.out.println("Count: "+count);
 		count++;
-		System.out.println("Create Chamber: "+x+","+y+" : "+fx+","+fy);
+		System.out.println("Create Chamber: "+x+","+y+" : "+fx+","+fy); 
 		for(int dy = y;dy<y+height;dy++)
 		{
 			maze.mazeData[x][dy].addWall(Direction.West);

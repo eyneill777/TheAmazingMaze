@@ -16,7 +16,7 @@ public class SimpleSampleMaze extends MazeGenerator {
 	public SimpleSampleMaze(Maze maze) {
 		super(maze);
 	}
-
+ 
 	@Override
 	public void generateMaze() {
 		// simple 5x5 sample maze

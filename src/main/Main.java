@@ -25,7 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 public class Main extends JFrame {
-	final Dimension mazeDim = new Dimension(50, 50);// Size of the maze 
+	final Dimension mazeDim = new Dimension(100, 100);// Size of the maze 
 	static Dimension windowDim;// Size of the window
 	Maze maze;
 	Graph graph;
@@ -50,7 +50,7 @@ public class Main extends JFrame {
 	{
 		EventQueue.invokeLater(new Runnable() {
 			@Override
-			public void run() {
+			public void run() { 
 				windowDim = Toolkit.getDefaultToolkit().getScreenSize();// Set windowDim = size of the screen
 				Main f = new Main();
 				f.setSize(windowDim);
@@ -75,7 +75,7 @@ public class Main extends JFrame {
 		Font f = new Font("sans-serif", Font.PLAIN, 20);
 		UIManager.put("Menu.font", f);
 		menuBar = new JMenuBar();
-		viewMenu = new JMenu("View");
+		viewMenu = new JMenu("View"); 
 		generateMenu = new JMenu("Generate");
 		menuBar.add(viewMenu);
 		menuBar.add(generateMenu);
