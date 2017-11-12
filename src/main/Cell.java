@@ -147,11 +147,9 @@ public class Cell {
 	}
 
 	public Wall getSouthWall() {
-		// TODO Auto-generated method stub
 		return walls[Direction.South.num];
 	}
 	public Wall getEastWall() {
-		// TODO Auto-generated method stub
 		return walls[Direction.East.num]; 
 	}
 

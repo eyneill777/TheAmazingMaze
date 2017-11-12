@@ -87,6 +87,9 @@ public class Ellers extends MazeGenerator {
 						rightCell.getSouthWall().getCell2().setLabel(leftCell.getLabel());
 						rightCell.removeWall(Direction.South);
 					} else {
+						if (leftCell.getEastWall() != null) {
+							leftCell.removeWall(Direction.East);
+						}
 						setSize = x - setStart + 2;
 					}
 				}

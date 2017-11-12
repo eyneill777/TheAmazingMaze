@@ -13,6 +13,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.AbstractButton;
@@ -41,9 +43,10 @@ public class Main extends JFrame {
 	private EventHandler eh;
 	private Mode drawMode = Mode.MAZE; // default to maze
 	private double startTime, stopTime;
+	private static FileWriter writer = null;
 
 	private enum Mode {
-		GRAPH, MAZE;
+		GRAPH, MAZE, TGRAPH;
 	}
 
 	public static void main(String[] args)// This method creates the window and launches the code in the constructor
@@ -61,12 +64,10 @@ public class Main extends JFrame {
 	}
 
 	public Main() {
+		//initialize the filewriter for statistics
+		
 		eh = new EventHandler();
 		maze = new Maze(mazeDim);
-		generator = new KruskalsAlgorithm(maze); // MazeGenerator here
-		startTime = System.currentTimeMillis();
-		generator.generateMaze();
-		stopTime = System.currentTimeMillis();
 		solution = new AstarMazeSolver(maze);
 		solutionPath = solution.search();
 		graph = new Graph(maze, solutionPath);
@@ -81,16 +82,23 @@ public class Main extends JFrame {
 		menuBar.add(generateMenu);
 		this.add(menuBar, BorderLayout.NORTH);
 		
-		// Graph view
-		JMenuItem menuItem = new JMenuItem("Graph View");
-		menuItem.addActionListener(eh);
-		viewMenu.add(menuItem);
-		menuItem.setFont(f);
 		// Maze view
 		menuItem = new JMenuItem("Maze View");
 		menuItem.addActionListener(eh);
 		viewMenu.add(menuItem);
 		menuItem.setFont(f);
+				
+		// Graph view
+		JMenuItem menuItem = new JMenuItem("Graph View");
+		menuItem.addActionListener(eh);
+		viewMenu.add(menuItem);
+		menuItem.setFont(f);
+		
+		// Tile Graph view
+		JMenuItem item = new JMenuItem("Tile Graph View");
+		item.addActionListener(eh);
+		viewMenu.add(item);
+		item.setFont(f);
 		
 		// Kruskals Algorithm
 		menuItem = new JMenuItem("Kruskals");
@@ -99,10 +107,10 @@ public class Main extends JFrame {
 		menuItem.setFont(f);
 
 		// Recursive Division
-				menuItem = new JMenuItem("Recursive");
-				menuItem.addActionListener(eh);
-				generateMenu.add(menuItem);
-				menuItem.setFont(f);
+		menuItem = new JMenuItem("Recursive");
+		menuItem.addActionListener(eh);
+		generateMenu.add(menuItem);
+		menuItem.setFont(f);
 		
 		// Wilson's Algorithm
 		menuItem = new JMenuItem("Wilsons");
@@ -124,6 +132,12 @@ public class Main extends JFrame {
 		
 		// Eller 's algorithm
 		menuItem = new JMenuItem("Ellers");
+		menuItem.addActionListener(eh);
+		generateMenu.add(menuItem);
+		menuItem.setFont(f);
+		
+		// Backtracking
+		menuItem = new JMenuItem("BackTracker");
 		menuItem.addActionListener(eh);
 		generateMenu.add(menuItem);
 		menuItem.setFont(f);
@@ -155,6 +169,9 @@ public class Main extends JFrame {
 
 		} else if (drawMode == Mode.GRAPH) {
 			graph.draw(g, mazePanel.getSize(), maze.getMazeImage());
+		}
+		else if (drawMode == Mode.TGRAPH) {
+			graph.draw(g, mazePanel.getSize(), maze.getMazeImage(), true);
 		}
 	}
 
@@ -188,83 +205,120 @@ public class Main extends JFrame {
 		}
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			if (e.getActionCommand().equals("Graph View")) {
-				drawMode = Mode.GRAPH;
-				System.out.println("test");
-				repaint();
+		public void actionPerformed(ActionEvent e) 
+		{
+			//try{
+			//	writer = new FileWriter("src//main//data.txt");
+			//}
+			//catch(Exception e1)
+			//{
+			//	e1.printStackTrace();
+			//}
+			//for(int i = 0;i<100;i++)
+			{
+				if (e.getActionCommand().equals("Graph View")) {
+					drawMode = Mode.GRAPH;
+					System.out.println("test");
+					repaint();
+				}
+				else if (e.getActionCommand().equals("Maze View")) {
+					drawMode = Mode.MAZE;
+					System.out.println("test");
+					repaint();
+				}
+				else if (e.getActionCommand().equals("Tile Graph View")) {
+					drawMode = Mode.TGRAPH;
+					System.out.println("test");
+					repaint();
+				}
+				
+	
+				else if (e.getActionCommand().equals("Kruskals")) {
+					maze.reset();
+					generator = new KruskalsAlgorithm(maze); // MazeGenerator here
+					startTime = System.currentTimeMillis();
+					generator.generateMaze();
+					stopTime = System.currentTimeMillis();
+					solution = new AstarMazeSolver(maze);
+					solutionPath = solution.search();
+					graph = new Graph(maze, solutionPath);
+					printTheStats();
+					repaint();
+				}
+				else if (e.getActionCommand().equals("Wilsons")) {
+					maze.reset();
+					generator = new Wilson(maze); // MazeGenerator here
+					startTime = System.currentTimeMillis();
+					generator.generateMaze();
+					stopTime = System.currentTimeMillis();
+					solution = new AstarMazeSolver(maze);
+					solutionPath = solution.search();
+					graph = new Graph(maze, solutionPath);
+					printTheStats();
+					repaint();
+				}
+				else if (e.getActionCommand().equals("Recursive")) {
+					maze.reset();
+					generator = new RecursiveDivision(maze); // MazeGenerator here
+					generator.generateMaze();
+					repaint();
+				}
+				else if (e.getActionCommand().equals("Sidewinder")) {
+					maze.reset();
+					generator = new Sidewinder(maze); // MazeGenerator here
+					startTime = System.currentTimeMillis();
+					generator.generateMaze();
+					stopTime = System.currentTimeMillis();
+					solution = new AstarMazeSolver(maze);
+					solutionPath = solution.search();
+					graph = new Graph(maze, solutionPath);
+					printTheStats();
+					repaint();
+				}
+				else if (e.getActionCommand().equals("Prim")) {
+					maze.reset();
+					generator = new Prims(maze); // MazeGenerator here
+					startTime = System.currentTimeMillis();
+					generator.generateMaze();
+					stopTime = System.currentTimeMillis();
+					solution = new AstarMazeSolver(maze);
+					solutionPath = solution.search();
+					graph = new Graph(maze, solutionPath);
+					printTheStats();
+					repaint();
+				}
+				else if (e.getActionCommand().equals("Ellers")) {
+					maze.reset();
+					generator = new Ellers(maze); // MazeGenerator here
+					startTime = System.currentTimeMillis();
+					generator.generateMaze();
+					stopTime = System.currentTimeMillis();
+					solution = new AstarMazeSolver(maze);
+					solutionPath = solution.search();
+					graph = new Graph(maze, solutionPath);
+					printTheStats();
+					repaint();
+				} 
+				else if (e.getActionCommand().equals("BackTracker")) {
+					maze.reset();
+					generator = new BackTracker(maze); // MazeGenerator here
+					startTime = System.currentTimeMillis();
+					generator.generateMaze();
+					stopTime = System.currentTimeMillis();
+					solution = new AstarMazeSolver(maze);
+					solutionPath = solution.search();
+					graph = new Graph(maze, solutionPath);
+					printTheStats();
+					repaint();
+				}
+				//logInfo();
+				//System.out.println(i);
 			}
-			else if (e.getActionCommand().equals("Maze View")) {
-				drawMode = Mode.MAZE;
-				System.out.println("test");
-				repaint();
-			}
-			else if (e.getActionCommand().equals("Kruskals")) {
-				maze.reset();
-				generator = new KruskalsAlgorithm(maze); // MazeGenerator here
-				startTime = System.currentTimeMillis();
-				generator.generateMaze();
-				stopTime = System.currentTimeMillis();
-				solution = new AstarMazeSolver(maze);
-				solutionPath = solution.search();
-				graph = new Graph(maze, solutionPath);
-				printTheStats();
-				repaint();
-			}
-			else if (e.getActionCommand().equals("Wilsons")) {
-				maze.reset();
-				generator = new Wilson(maze); // MazeGenerator here
-				startTime = System.currentTimeMillis();
-				generator.generateMaze();
-				stopTime = System.currentTimeMillis();
-				solution = new AstarMazeSolver(maze);
-				solutionPath = solution.search();
-				graph = new Graph(maze, solutionPath);
-				printTheStats();
-				repaint();
-			}
-			else if (e.getActionCommand().equals("Recursive")) {
-				maze.reset();
-				generator = new RecursiveDivision(maze); // MazeGenerator here
-				generator.generateMaze();
-				repaint();
-			}
-			else if (e.getActionCommand().equals("Sidewinder")) {
-				maze.reset();
-				generator = new Sidewinder(maze); // MazeGenerator here
-				startTime = System.currentTimeMillis();
-				generator.generateMaze();
-				stopTime = System.currentTimeMillis();
-				solution = new AstarMazeSolver(maze);
-				solutionPath = solution.search();
-				graph = new Graph(maze, solutionPath);
-				printTheStats();
-				repaint();
-			}
-			else if (e.getActionCommand().equals("Prim")) {
-				maze.reset();
-				generator = new Prims(maze); // MazeGenerator here
-				startTime = System.currentTimeMillis();
-				generator.generateMaze();
-				stopTime = System.currentTimeMillis();
-				solution = new AstarMazeSolver(maze);
-				solutionPath = solution.search();
-				graph = new Graph(maze, solutionPath);
-				printTheStats();
-				repaint();
-			}
-			else if (e.getActionCommand().equals("Ellers")) {
-				maze.reset();
-				generator = new Ellers(maze); // MazeGenerator here
-				startTime = System.currentTimeMillis();
-				generator.generateMaze();
-				stopTime = System.currentTimeMillis();
-				solution = new AstarMazeSolver(maze);
-				solutionPath = solution.search();
-				graph = new Graph(maze, solutionPath);
-				printTheStats();
-				repaint();
-			}
+			//try {
+			//	writer.close();
+			//} catch (IOException e1) {
+			//	e1.printStackTrace();
+			//}
 		}
 
 		@Override
@@ -277,6 +331,20 @@ public class Main extends JFrame {
 		public void mouseMoved(MouseEvent arg0) {
 			// TODO Auto-generated method stub
 
+		}
+		
+		private void logInfo()
+		{
+			double time = stopTime-startTime;
+			String data = ""+graph.numberOfDeadEnds()+"\t"+graph.numberOfIntersections()+"\t"+graph.traversalLength()+"\t"+graph.solutionComplexity()+"\t"+graph.mazeComplexity()+"\t"+graph.mazeDifficulty()+"\t"+time+"\n";
+			try{
+				writer.write(data);
+				writer.flush();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 }
