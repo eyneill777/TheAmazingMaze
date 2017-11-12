@@ -16,7 +16,7 @@ public class Maze
 	BufferedImage mazeImage;//Image the maze is stored in 
 	int cellSize;
 	
-	public Maze(Dimension size) 
+	public Maze(Dimension size)
 	{
 		this.size = size;
 		adjustCellSize();
@@ -71,10 +71,10 @@ public class Maze
 	
 	public void draw(Graphics2D g, Dimension panelSize)
 	{
-		g.setColor(Color.white);
+		g.setColor(Color.black);
 		g.fillRect(0, 0, panelSize.width, panelSize.height);
 		Graphics2D gfx = (Graphics2D) mazeImage.getGraphics();
-		gfx.fillRect(0, 0, mazeImage.getWidth()-20, mazeImage.getHeight());   // erase the graph off of the image
+		gfx.fillRect(0, 0, mazeImage.getWidth(), mazeImage.getHeight());   // erase the graph off of the image
 		
 		//Loop through all the cells and draw them to MazeImage
 		for(int x = 0;x<size.width;x++)

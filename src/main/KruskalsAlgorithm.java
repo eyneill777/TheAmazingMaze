@@ -6,7 +6,6 @@ package main;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -14,11 +13,11 @@ import java.util.Set;
 public class KruskalsAlgorithm extends MazeGenerator {
 	private ArrayList<Wall> walls = new ArrayList<Wall>();
 	private Set<Cell> visited = new HashSet<Cell>();
-	private LinkedList<Cell> cells = new LinkedList<>();
+	private ArrayList<Cell> cells = new ArrayList<>();
 
 	public KruskalsAlgorithm(Maze maze) {
-		super(maze); 
-	} 
+		super(maze);
+	}
 
 	public void generateMaze() {
 		Random rand = new Random();
@@ -26,7 +25,7 @@ public class KruskalsAlgorithm extends MazeGenerator {
 		// adding all the walls.
 		int counter = 0;
 		for (int i = 0; i < maze.mazeData.length; i++) {
-			for (int j = 0; j < maze.mazeData[i].length; j++) { 
+			for (int j = 0; j < maze.mazeData[i].length; j++) {
 				maze.mazeData[i][j].setLabel(counter);
 				if (maze.mazeData[i][j].hasWall(Direction.North)) {
 					if (!walls.contains(maze.mazeData[i][j].getNorthWall())) {
