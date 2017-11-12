@@ -46,7 +46,7 @@ public class Main extends JFrame {
 	private static FileWriter writer = null;
 
 	private enum Mode {
-		GRAPH, MAZE;
+		GRAPH, MAZE, TGRAPH;
 	}
 
 	public static void main(String[] args)// This method creates the window and launches the code in the constructor
@@ -68,10 +68,6 @@ public class Main extends JFrame {
 		
 		eh = new EventHandler();
 		maze = new Maze(mazeDim);
-		generator = new KruskalsAlgorithm(maze); // MazeGenerator here
-		startTime = System.currentTimeMillis();
-		generator.generateMaze();
-		stopTime = System.currentTimeMillis();
 		solution = new AstarMazeSolver(maze);
 		solutionPath = solution.search();
 		graph = new Graph(maze, solutionPath);
@@ -86,16 +82,23 @@ public class Main extends JFrame {
 		menuBar.add(generateMenu);
 		this.add(menuBar, BorderLayout.NORTH);
 		
-		// Graph view
-		JMenuItem menuItem = new JMenuItem("Graph View");
-		menuItem.addActionListener(eh);
-		viewMenu.add(menuItem);
-		menuItem.setFont(f);
 		// Maze view
 		menuItem = new JMenuItem("Maze View");
 		menuItem.addActionListener(eh);
 		viewMenu.add(menuItem);
 		menuItem.setFont(f);
+				
+		// Graph view
+		JMenuItem menuItem = new JMenuItem("Graph View");
+		menuItem.addActionListener(eh);
+		viewMenu.add(menuItem);
+		menuItem.setFont(f);
+		
+		// Tile Graph view
+		JMenuItem item = new JMenuItem("Tile Graph View");
+		item.addActionListener(eh);
+		viewMenu.add(item);
+		item.setFont(f);
 		
 		// Kruskals Algorithm
 		menuItem = new JMenuItem("Kruskals");
@@ -104,10 +107,10 @@ public class Main extends JFrame {
 		menuItem.setFont(f);
 
 		// Recursive Division
-				menuItem = new JMenuItem("Recursive");
-				menuItem.addActionListener(eh);
-				generateMenu.add(menuItem);
-				menuItem.setFont(f);
+		menuItem = new JMenuItem("Recursive");
+		menuItem.addActionListener(eh);
+		generateMenu.add(menuItem);
+		menuItem.setFont(f);
 		
 		// Wilson's Algorithm
 		menuItem = new JMenuItem("Wilsons");
@@ -167,6 +170,9 @@ public class Main extends JFrame {
 		} else if (drawMode == Mode.GRAPH) {
 			graph.draw(g, mazePanel.getSize(), maze.getMazeImage());
 		}
+		else if (drawMode == Mode.TGRAPH) {
+			graph.draw(g, mazePanel.getSize(), maze.getMazeImage(), true);
+		}
 	}
 
 	private class EventHandler implements ActionListener, MouseListener, MouseMotionListener {
@@ -220,6 +226,12 @@ public class Main extends JFrame {
 					System.out.println("test");
 					repaint();
 				}
+				else if (e.getActionCommand().equals("Tile Graph View")) {
+					drawMode = Mode.TGRAPH;
+					System.out.println("test");
+					repaint();
+				}
+				
 	
 				else if (e.getActionCommand().equals("Kruskals")) {
 					maze.reset();
