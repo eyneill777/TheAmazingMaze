@@ -93,11 +93,18 @@ public class Cell {
 
 	public void removeWall(Direction direction) {
 		if (walls[direction.num] != null) {
-			Cell neighbs = walls[direction.num].getNeighbor(); // get the neighbor cell
-			neighbors.add(neighbs); // add the new neighboring cell to neighbors
-			neighbs.neighbors.add(this); // add current cell to the neighbor's list of the neighboring cells
-			walls[direction.num] = null; // delete the wall from its stored locations
-			neighbs.walls[direction.opposite()] = null;
+			try
+			{
+				Cell neighbs = walls[direction.num].getNeighbor(); // get the neighbor cell
+				neighbors.add(neighbs); // add the new neighboring cell to neighbors
+				neighbs.neighbors.add(this); // add current cell to the neighbor's list of the neighboring cells
+				walls[direction.num] = null; // delete the wall from its stored locations
+				neighbs.walls[direction.opposite()] = null;
+			}
+			catch(NullPointerException e)//This occurs when you try to remove a wall on the outside of the maze (neighbs is null)
+			{
+				walls[direction.num] = null;
+			}
 		}
 	}
 

@@ -21,36 +21,44 @@ public class RecursiveDivision extends MazeGenerator
 	
 	private void createChamber(int x, int y, int width, int height, int count)
 	{
-		int fx = x+width, fy = y+height;
-		System.out.println("Count: "+count);
-		count++;
-		System.out.println("Create Chamber: "+x+","+y+" : "+fx+","+fy);
-		for(int dy = y;dy<y+height;dy++)
+		if(count < 4)
 		{
-			maze.mazeData[x][dy].addWall(Direction.West);
-			maze.mazeData[x+width-1][dy].addWall(Direction.East);
+			int fx = x+width, fy = y+height;
+			System.out.println("Count: "+count);
+			count++;
+			System.out.println("Create Chamber: "+x+","+y+" : "+fx+","+fy);
+			for(int dy = y;dy<y+height;dy++)
+			{
+				maze.mazeData[x][dy].addWall(Direction.West);
+				maze.mazeData[fx-1][dy].addWall(Direction.East);
+			}
+			for(int dx = x;dx<x+width;dx++)
+			{
+				maze.mazeData[dx][y].addWall(Direction.North);
+				maze.mazeData[dx][fy-1].addWall(Direction.South);
+			}
+			if(width > 1 && height > 1)
+			{
+				int rx = rand.nextInt(width-1)+x+1;
+				int ry = rand.nextInt(height-1)+y+1;
+				System.out.print("Quartile: ");
+				System.out.println(0);
+				createChamber(x, y, rx-x, ry-y, count);
+				System.out.println(1);
+				createChamber(rx, y, width-rx, ry-y, count);
+				System.out.println(2);
+				createChamber(x, ry, rx-x, height-ry, count);
+				System.out.println(3);
+				createChamber(rx, ry, width-rx, height-ry, count);
+				System.out.println(rx+" "+ry);
+				openWalls(rx, ry, ry-y, y+height-ry, rx-x, x+width-rx);
+			}
 		}
-		for(int dx = x;dx<x+width;dx++)
+		//if(count == 0)
 		{
-			maze.mazeData[dx][y].addWall(Direction.North);
-			maze.mazeData[dx][y+height-1].addWall(Direction.South);
+			maze.mazeData[0][0].removeWall(Direction.North);
+			maze.mazeData[maze.size.width-1][maze.size.height-1].removeWall(Direction.South);
 		}
-		if(width > 1 && height > 1)
-		{
-			int rx = rand.nextInt(width-1)+x+1;
-			int ry = rand.nextInt(height-1)+y+1;
-			System.out.println(rx+" : "+ry);
-			System.out.println(0);
-			createChamber(x, y, rx-x, ry-y, count);
-			System.out.println(1);
-			createChamber(rx, y, width-rx, ry-y, count);
-			System.out.println(2);
-			createChamber(x, ry, rx-x, height-ry, count);
-			System.out.println(3);
-			createChamber(rx, ry, width-rx, height-ry, count);
-			openWalls(rx, ry, ry-y, y+height-ry, rx-x, x+width-rx);
-		}
-		System.out.println();
 	}
 	
 	private void openWalls(int wallX, int wallY, int spaceAbove, int spaceBelow, int spaceLeft, int spaceRight)
