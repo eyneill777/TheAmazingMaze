@@ -25,6 +25,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 public class Main extends JFrame {
 	final Dimension mazeDim = new Dimension(100, 100);// Size of the maze 
@@ -77,6 +79,7 @@ public class Main extends JFrame {
 		UIManager.put("Menu.font", f);
 		menuBar = new JMenuBar();
 		viewMenu = new JMenu("View"); 
+		viewMenu.addMenuListener(new MenuHandler());
 		generateMenu = new JMenu("Generate");
 		menuBar.add(viewMenu);
 		menuBar.add(generateMenu);
@@ -104,6 +107,7 @@ public class Main extends JFrame {
 		menuItem = new JMenuItem("Kruskals");
 		menuItem.addActionListener(eh);
 		generateMenu.add(menuItem);
+		generateMenu.addMenuListener(new MenuHandler());
 		menuItem.setFont(f);
 
 		// Recursive Division
@@ -345,6 +349,21 @@ public class Main extends JFrame {
 			{
 				e.printStackTrace();
 			}
+		}
+	}
+	public class MenuHandler implements MenuListener {
+
+		public void menuSelected(MenuEvent e) {
+
+		}
+
+		public void menuDeselected(MenuEvent e) {
+			//menuDeselect = true;
+			repaint();
+		}
+
+		public void menuCanceled(MenuEvent e) {
+
 		}
 	}
 }
