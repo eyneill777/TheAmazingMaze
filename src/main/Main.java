@@ -109,12 +109,6 @@ public class Main extends JFrame {
 		generateMenu.add(menuItem);
 		generateMenu.addMenuListener(new MenuHandler());
 		menuItem.setFont(f);
-
-		// Recursive Division
-		menuItem = new JMenuItem("Recursive");
-		menuItem.addActionListener(eh);
-		generateMenu.add(menuItem);
-		menuItem.setFont(f);
 		
 		// Wilson's Algorithm
 		menuItem = new JMenuItem("Wilsons");
@@ -259,12 +253,6 @@ public class Main extends JFrame {
 					solutionPath = solution.search();
 					graph = new Graph(maze, solutionPath);
 					printTheStats();
-					repaint();
-				}
-				else if (e.getActionCommand().equals("Recursive")) {
-					maze.reset();
-					generator = new RecursiveDivision(maze); // MazeGenerator here
-					generator.generateMaze();
 					repaint();
 				}
 				else if (e.getActionCommand().equals("Sidewinder")) {

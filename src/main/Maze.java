@@ -21,7 +21,7 @@ public class Maze
 		this.size = size;
 		adjustCellSize();
 		mazeData = new Cell[size.width][size.height];
-		mazeImage = new BufferedImage(size.width*cellSize, size.height*cellSize, BufferedImage.TYPE_INT_ARGB);
+		mazeImage = new BufferedImage(size.width*cellSize+1, size.height*cellSize+1, BufferedImage.TYPE_INT_ARGB);
 		reset();
 	}
 	
@@ -71,7 +71,7 @@ public class Maze
 	
 	public void draw(Graphics2D g, Dimension panelSize)
 	{
-		g.setColor(Color.black);
+		g.setColor(Color.lightGray);
 		g.fillRect(0, 0, panelSize.width, panelSize.height);
 		Graphics2D gfx = (Graphics2D) mazeImage.getGraphics();
 		gfx.fillRect(0, 0, mazeImage.getWidth(), mazeImage.getHeight());   // erase the graph off of the image
