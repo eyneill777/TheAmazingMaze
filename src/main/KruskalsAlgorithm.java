@@ -23,18 +23,18 @@ public class KruskalsAlgorithm extends MazeGenerator {
 		Random rand = new Random();
 
 		// adding all the walls.
-		int counter = 0;
+		int counter = 0;  // If N = the number of cells and we are looping through all cells this computation takes 0(N) 
 		for (int i = 0; i < maze.mazeData.length; i++) {
 			for (int j = 0; j < maze.mazeData[i].length; j++) {
 				maze.mazeData[i][j].setLabel(counter);
 				if (maze.mazeData[i][j].hasWall(Direction.North)) {
 					if (!walls.contains(maze.mazeData[i][j].getNorthWall())) {
-						walls.add(maze.mazeData[i][j].getNorthWall());
+						walls.add(maze.mazeData[i][j].getNorthWall()); // Adding each wall to the arraylist takes: 
 					}
 				}
 				if (maze.mazeData[i][j].hasWall(Direction.East)) {
 					if (!walls.contains(maze.mazeData[i][j].getEastWall())) {
-						walls.add(maze.mazeData[i][j].getEastWall());
+						walls.add(maze.mazeData[i][j].getEastWall()); // Adding each wall to the arraylist takes: 
 					}
 				}
 				cells.add(maze.mazeData[i][j]);
