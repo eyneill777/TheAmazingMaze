@@ -16,10 +16,11 @@ public class RecursiveDivision extends MazeGenerator
 	public void generateMaze() 
 	{
 		maze.clear();
-		createChamber(0, 0, maze.size.width, maze.size.height, 0);
+		//createChamber(0, 0, maze.size.width, maze.size.height, 0, null);
+		createChamber(0, 0, maze.size.width, maze.size.height);
 	}
 	
-	private void createChamber(int x, int y, int width, int height, int count)
+	private void createChamber(int x, int y, int width, int height, int count, Direction connectingWallDir)
 	{
 		if(count < 4)
 		{
@@ -29,13 +30,17 @@ public class RecursiveDivision extends MazeGenerator
 			System.out.println("Create Chamber: "+x+","+y+" : "+fx+","+fy);
 			for(int dy = y;dy<y+height;dy++)
 			{
-				maze.mazeData[x][dy].addWall(Direction.West);
-				maze.mazeData[fx-1][dy].addWall(Direction.East);
+				if(connectingWallDir != Direction.West)
+					maze.mazeData[x][dy].addWall(Direction.West);
+				else if(connectingWallDir != Direction.East)
+					maze.mazeData[fx-1][dy].addWall(Direction.East);
 			}
 			for(int dx = x;dx<x+width;dx++)
 			{
-				maze.mazeData[dx][y].addWall(Direction.North);
-				maze.mazeData[dx][fy-1].addWall(Direction.South);
+				if(connectingWallDir != Direction.North)
+					maze.mazeData[dx][y].addWall(Direction.North);
+				else if(connectingWallDir != Direction.South)
+					maze.mazeData[dx][fy-1].addWall(Direction.South);
 			}
 			if(width > 1 && height > 1)
 			{
@@ -43,13 +48,16 @@ public class RecursiveDivision extends MazeGenerator
 				int ry = rand.nextInt(height-1)+y+1;
 				System.out.print("Quartile: ");
 				System.out.println(0);
-				createChamber(x, y, rx-x, ry-y, count);
+				createChamber(x, y, rx-x, ry-y, count, null);
 				System.out.println(1);
-				createChamber(rx, y, width-rx, ry-y, count);
+				createChamber(rx, y, width-rx, ry-y, count, Direction.West);
 				System.out.println(2);
-				createChamber(x, ry, rx-x, height-ry, count);
+				createChamber(x, ry, rx-x, height-ry, count, Direction.North);
 				System.out.println(3);
-				createChamber(rx, ry, width-rx, height-ry, count);
+				if(Math.random() > .5)
+					createChamber(rx, ry, width-rx, height-ry, count, Direction.North);
+				else
+					createChamber(rx, ry, width-rx, height-ry, count, Direction.West);
 				System.out.println(rx+" "+ry);
 				openWalls(rx, ry, ry-y, y+height-ry, rx-x, x+width-rx);
 			}
@@ -58,6 +66,27 @@ public class RecursiveDivision extends MazeGenerator
 		{
 			maze.mazeData[0][0].removeWall(Direction.North);
 			maze.mazeData[maze.size.width-1][maze.size.height-1].removeWall(Direction.South);
+		}
+	}
+	
+	private void createChamber(int x, int y, int width, int height)
+	{
+		if(width > 1 && height > 1)
+		{
+			int rx = rand.nextInt(width-1)+x+1;
+			int ry = rand.nextInt(height-1)+y+1;
+			for(int dy = y;dy<y+height;dy++)
+			{
+				maze.mazeData[rx][dy].addWall(Direction.West);
+			}
+			for(int dx = x;dx<x+width;dx++)
+			{
+				maze.mazeData[dx][ry].addWall(Direction.North);
+			}
+			createChamber(x, y, rx, ry);
+			createChamber(rx, y, width-rx, ry);
+			createChamber(x, ry, rx, height-ry);
+			createChamber(rx, ry, width-rx, height-ry);
 		}
 	}
 	

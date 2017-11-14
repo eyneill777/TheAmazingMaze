@@ -36,6 +36,11 @@ public class Cell {
 			}
 		}
 	}
+	
+	public Wall getWall(Direction direction)
+	{
+		return walls[direction.num];
+	}
 
 	public void draw(Graphics2D g, int size) {
 		g.setColor(bgColor);
@@ -68,11 +73,13 @@ public class Cell {
 				cell2 = maze.getCell(new Point(position.x, position.y - 1));
 			}
 		} else if (direction == Direction.East) {
-			if (position.x < maze.size.width - 1) {
+			if (position.x < maze.size.width - 1) 
+			{
 				cell2 = maze.getCell(new Point(position.x + 1, position.y));
 			}
 		} else if (direction == Direction.South) {
-			if (position.y < maze.size.height - 1) {
+			if (position.y < maze.size.height - 1) 
+			{
 				cell2 = maze.getCell(new Point(position.x, position.y + 1));
 			}
 		} else if (direction == Direction.West) {
