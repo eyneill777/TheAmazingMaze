@@ -27,7 +27,7 @@ public class Prims extends MazeGenerator {
 	 * @param maze the maze to generate a maze with
 	 */
 	public Prims(Maze maze) {
-		super(maze);
+		super(maze); 
 		this.maze = maze;
 		rand = new Random();
 		mazeSet = new HashSet<Cell>();

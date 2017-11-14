@@ -25,6 +25,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
 
 public class Main extends JFrame {
 	final Dimension mazeDim = new Dimension(100, 100);// Size of the maze 
@@ -53,7 +55,7 @@ public class Main extends JFrame {
 	{
 		EventQueue.invokeLater(new Runnable() {
 			@Override
-			public void run() {
+			public void run() { 
 				windowDim = Toolkit.getDefaultToolkit().getScreenSize();// Set windowDim = size of the screen
 				Main f = new Main();
 				f.setSize(windowDim);
@@ -76,7 +78,8 @@ public class Main extends JFrame {
 		Font f = new Font("sans-serif", Font.PLAIN, 20);
 		UIManager.put("Menu.font", f);
 		menuBar = new JMenuBar();
-		viewMenu = new JMenu("View");
+		viewMenu = new JMenu("View"); 
+		viewMenu.addMenuListener(new MenuHandler());
 		generateMenu = new JMenu("Generate");
 		menuBar.add(viewMenu);
 		menuBar.add(generateMenu);
@@ -104,12 +107,7 @@ public class Main extends JFrame {
 		menuItem = new JMenuItem("Kruskals");
 		menuItem.addActionListener(eh);
 		generateMenu.add(menuItem);
-		menuItem.setFont(f);
-
-		// Recursive Division
-		menuItem = new JMenuItem("Recursive");
-		menuItem.addActionListener(eh);
-		generateMenu.add(menuItem);
+		generateMenu.addMenuListener(new MenuHandler());
 		menuItem.setFont(f);
 		
 		// Wilson's Algorithm
@@ -257,12 +255,6 @@ public class Main extends JFrame {
 					printTheStats();
 					repaint();
 				}
-				else if (e.getActionCommand().equals("Recursive")) {
-					maze.reset();
-					generator = new RecursiveDivision(maze); // MazeGenerator here
-					generator.generateMaze();
-					repaint();
-				}
 				else if (e.getActionCommand().equals("Sidewinder")) {
 					maze.reset();
 					generator = new Sidewinder(maze); // MazeGenerator here
@@ -345,6 +337,21 @@ public class Main extends JFrame {
 			{
 				e.printStackTrace();
 			}
+		}
+	}
+	public class MenuHandler implements MenuListener {
+
+		public void menuSelected(MenuEvent e) {
+
+		}
+
+		public void menuDeselected(MenuEvent e) {
+			//menuDeselect = true;
+			repaint();
+		}
+
+		public void menuCanceled(MenuEvent e) {
+
 		}
 	}
 }
