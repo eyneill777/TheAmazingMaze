@@ -3,6 +3,7 @@
  */
 package main;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -570,6 +571,7 @@ public class Graph {
 		g.fillRect(0, 0, panelSize.width, panelSize.height);
 		graphImage = mazePic;
 		Graphics2D g2 = (Graphics2D) graphImage.getGraphics();
+		g2.setStroke(new BasicStroke(3));
 		g2.setColor(Color.white);
 		g2.fillRect(0, 0, graphImage.getWidth(), graphImage.getHeight()); // erase the maze off of the image
 		Cell c1;

@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -71,11 +72,12 @@ public class Maze
 	
 	public void draw(Graphics2D g, Dimension panelSize)
 	{
-		g.setColor(Color.lightGray);
+		
+		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, panelSize.width, panelSize.height);
 		Graphics2D gfx = (Graphics2D) mazeImage.getGraphics();
 		gfx.fillRect(0, 0, mazeImage.getWidth(), mazeImage.getHeight());   // erase the graph off of the image
-		
+		gfx.setStroke(new BasicStroke(3));
 		//Loop through all the cells and draw them to MazeImage
 		for(int x = 0;x<size.width;x++)
 		{

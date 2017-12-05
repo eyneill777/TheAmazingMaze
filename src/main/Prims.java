@@ -91,5 +91,4 @@ public class Prims extends MazeGenerator {
 			}
 		}
 	}
-
 }

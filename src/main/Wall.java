@@ -26,7 +26,7 @@ public class Wall {
 			y2 = cell2.position.y;
 		}
 		relativeCellPosition = getRelativeCellPosition();
-		wallColor = Color.GRAY;
+		wallColor = Color.BLACK;
 	}
 	public Cell getCell1() {
 		return dividedCells[0];

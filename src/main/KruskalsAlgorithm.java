@@ -1,7 +1,7 @@
 package main;
 
 /**
- * @author tln86
+ * @author Taylor Noble
  */
 import java.util.ArrayList;
 import java.util.Collections;
@@ -48,12 +48,8 @@ public class KruskalsAlgorithm extends MazeGenerator {
 			if (walls.get(i).isOutsideWall())
 				walls.remove(i);
 		}
-		// Will shuffle the walls
-		for (int i = 0; i < walls.size(); i++) {
-			int ind = rand.nextInt(walls.size());
-			int ind2 = rand.nextInt(walls.size());
-			Collections.swap((List<Wall>) walls, ind, ind2);
-		}
+		
+		Collections.shuffle(walls);
 
 		// 1. Pick a wall from the list of walls.
 		// 2. If both cells have not been visited, mark them as visited and join their sets. Knock the wall down.

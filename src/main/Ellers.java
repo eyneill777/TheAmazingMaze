@@ -29,9 +29,9 @@ public class Ellers extends MazeGenerator {
 	}
 
 	/**
-	 * Connects sets in the same row by a 50/50 probability if its not the last row.
-	 * If it is the last row then all sets must be connected to one another in order
-	 * to make the maze a perfect maze.
+	  Connects sets in the same row by a 50/50 probability if its not the last row.
+	  If it is the last row then all sets must be connected to one another in order
+	  to make the maze a perfect maze.
 	 * 
 	 * @param row
 	 *            the row to undergo set adjoining
